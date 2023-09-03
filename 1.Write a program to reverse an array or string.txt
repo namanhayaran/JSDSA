@@ -1,0 +1,32 @@
+function reverseArray(arr , num){
+    var start = 0;
+    var end = num-1;
+    var t;
+    while (start < end){
+        t = arr[start];
+        arr[start]= arr[end];
+        arr[end] = t;
+        start = start+1;
+        end = end-1;
+    }
+    
+}
+
+
+
+function printArray(arr, size){
+    for(i = 0; i < size; i++){
+        console.log(arr[i])
+    }
+}
+
+
+var arr = [1,2,3,4];
+
+var n = 4;
+
+printArray(arr , n);
+
+reverseArray(arr, n);
+
+printArray(arr , n);
