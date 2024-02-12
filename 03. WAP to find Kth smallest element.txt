@@ -1,0 +1,45 @@
+function kthSmallestElement(arr, l, r, K) {
+    // If K is smaller than number of elements in array
+    if (K > 0 && K <= r - l + 1) {
+        // Partition the array around a pivot element and get the position of the pivot
+        let index = partition(arr, l, r);
+
+        // If the position is same as K
+        if (index - l == K - 1)
+            return arr[index];
+        
+        // If the position is more, recur for the left subarray
+        if (index - l > K - 1)
+            return kthSmallestElement(arr, l, index - 1, K);
+        
+        // Else recur for the right subarray
+        return kthSmallestElement(arr, index + 1, r, K - index + l - 1);
+    }
+
+    // If K is more than the number of elements in the array
+    return Number.MAX_VALUE;
+}
+
+function partition(arr, l, r) {
+    let x = arr[r];
+    let i = l;
+    for (let j = l; j <= r - 1; j++) {
+        if (arr[j] <= x) {
+            swap(arr, i, j);
+            i++;
+        }
+    }
+    swap(arr, i, r);
+    return i;
+}
+
+function swap(arr, i, j) {
+    let temp = arr[i];
+    arr[i] = arr[j];
+    arr[j] = temp;
+}
+
+// Example usage:
+let arr = [12, 3, 5, 7, 4, 19, 26];
+let K = 3;
+console.log("Kth smallest element is " + kthSmallestElement(arr, 0, arr.length - 1, K));
