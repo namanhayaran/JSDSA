@@ -1,0 +1,40 @@
+function sortArray(arr) {
+  let low = 0, mid = 0, high = arr.length - 1, temp;
+
+  // Iterate through the array until mid is less than or equal to high
+  while (mid <= high) {
+    switch (arr[mid]) {
+      // If the element is 0
+      case 0:
+        // Swap arr[low] and arr[mid]
+        temp = arr[low];
+        arr[low] = arr[mid];
+        arr[mid] = temp;
+        // Increment low and mid
+        low++;
+        mid++;
+        break;
+
+      // If the element is 1, just move to the next element
+      case 1:
+        mid++;
+        break;
+
+      // If the element is 2
+      case 2:
+        // Swap arr[mid] and arr[high]
+        temp = arr[mid];
+        arr[mid] = arr[high];
+        arr[high] = temp;
+        // Decrement high
+        high--;
+        break;
+    }
+  }
+
+  return arr;
+}
+
+// Example usage
+const arr = [0, 1, 2, 1, 0, 2, 1, 2];
+console.log(sortArray(arr));
