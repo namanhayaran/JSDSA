@@ -1,0 +1,35 @@
+function rearrangeArray(arr) {
+    let left = 0;
+    let right = arr.length - 1;
+
+    while (left < right) {
+        // Move left pointer towards the right until a positive number is found
+        while (arr[left] < 0 && left < right) {
+            left++;
+        }
+
+        // Move right pointer towards the left until a negative number is found
+        while (arr[right] >= 0 && left < right) {
+            right--;
+        }
+
+        // If there is a positive number on the left side and a negative number on the right side, swap them
+        if (left < right) {
+            let temp = arr[left];
+            arr[left] = arr[right];
+            arr[right] = temp;
+
+            // Move pointers towards the center
+            left++;
+            right--;
+        }
+    }
+
+    return arr;
+}
+
+// Example usage
+let arr = [-12, 11, -13, -5, 6, -7, 5, -3, 11];
+console.log("Original array:", arr);
+let rearrangedArray = rearrangeArray(arr);
+console.log("Rearranged array:", rearrangedArray);
