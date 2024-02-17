@@ -1,0 +1,15 @@
+function rotateArrayClockwise(arr) {
+  if(arr.length > 0) {
+    // Remove the last element from the array
+    const lastElement = arr.pop();
+    // Insert the last element at the beginning of the array
+    arr.unshift(lastElement);
+  }
+  return arr;
+}
+
+// Example usage
+const myArray = [1, 2, 3, 4, 5];
+console.log("Original array:", myArray);
+rotateArrayClockwise(myArray);
+console.log("Array after clockwise rotation:", myArray);
