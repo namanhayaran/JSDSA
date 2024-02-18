@@ -1,0 +1,17 @@
+function maxSubArraySum(Arr) {
+    let maxSoFar = Arr[0]; // Initialize maxSoFar with the first element of the array.
+    let currentMax = Arr[0]; // Initialize currentMax with the same value.
+
+    for (let i = 1; i < Arr.length; i++) { // Start the loop from the second element.
+        // Update currentMax with the maximum between the current element and the sum of currentMax and the current element.
+        currentMax = Math.max(Arr[i], currentMax + Arr[i]);
+        // Update maxSoFar with the maximum value between itself and currentMax.
+        maxSoFar = Math.max(maxSoFar, currentMax);
+    }
+    
+    return maxSoFar; // Return the maximum sum found.
+}
+
+// Example usage:
+const Arr = [-2, -3, 4, -1, -2, 1, 5, -3];
+console.log(maxSubArraySum(Arr)); // Should print the maximum sum of a contiguous sub-array.
