@@ -1,0 +1,37 @@
+function getMinDiff(arr, n, k) {
+  if (n === 1) return 0; // If there's only one tower, no difference
+
+  // Sort the array
+  arr.sort((a, b) => a - b);
+
+  // Initialize the difference between the maximum and minimum
+  let ans = arr[n - 1] - arr[0];
+
+  let small = arr[0] + k;
+  let big = arr[n - 1] - k;
+  if (small > big) [small, big] = [big, small]; // Swap if small is greater than big
+
+  // Traverse the sorted array
+  for (let i = 1; i < n - 1; i++) {
+    let subtract = arr[i] - k;
+    let add = arr[i] + k;
+
+    // Check if either subtraction leads to a negative number or not
+    if (subtract >= small || add <= big) continue;
+
+    // Either subtraction causes a smaller number or addition causes a bigger number, update them
+    if (big - subtract <= add - small) {
+      small = subtract;
+    } else {
+      big = add;
+    }
+  }
+
+  return Math.min(ans, big - small);
+}
+
+// Example usage:
+const arr = [1, 15, 10];
+const n = arr.length;
+const k = 6;
+console.log(getMinDiff(arr, n, k)); // Output the minimum possible difference
