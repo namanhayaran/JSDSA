@@ -1,0 +1,44 @@
+function minJumps(arr) {
+  let n = arr.length;
+  
+  // When the array has only one element.
+  if (n <= 1) return 0;
+  
+  // When the first element is 0, it's not possible to move forward.
+  if (arr[0] == 0) return -1;
+  
+  let maxReach = arr[0]; // The maximum index we can reach so far.
+  let steps = arr[0]; // Steps allowed from the current position.
+  let jumps = 1; // Number of jumps made.
+  
+  for (let i = 1; i < n; i++) {
+    // Check if we have reached the end of the array.
+    if (i == n - 1) {
+      return jumps;
+    }
+    
+    // Updating maxReach.
+    maxReach = Math.max(maxReach, i + arr[i]);
+    
+    // We use a step to get to the current index.
+    steps--;
+    
+    // If no further steps are remaining.
+    if (steps == 0) {
+      jumps++; // We need to make another jump.
+      
+      // Check if the current index/position is beyond the maximum reach.
+      if (i >= maxReach) {
+        return -1; // Cannot move forward from this point.
+      }
+      
+      // Reinitialize the steps to the number of steps to reach maxReach from position i.
+      steps = maxReach - i;
+    }
+  }
+  
+  return -1; // If we somehow didn't reach the end, return -1. (This line should theoretically not be reached)
+}
+
+// Example usage:
+console.log(minJumps([2, 3, 1, 1, 2, 4, 2, 0, 1, 1])); // Output: 4
