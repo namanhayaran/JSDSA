@@ -1,0 +1,42 @@
+function mergeSortedArrays(arr1, arr2) {
+  // Initialize an empty array to hold the merged result
+  let result = [];
+  
+  // Initialize two pointers to keep track of the current index of each array
+  let i = 0, j = 0;
+  
+  // Iterate through both arrays until we reach the end of one of them
+  while (i < arr1.length && j < arr2.length) {
+    // Compare elements from both arrays and add the smaller one to the result
+    if (arr1[i] < arr2[j]) {
+      result.push(arr1[i]);
+      i++; // Move the pointer of arr1 forward
+    } else {
+      result.push(arr2[j]);
+      j++; // Move the pointer of arr2 forward
+    }
+  }
+  
+  // After exiting the loop, one of the arrays might still have elements left
+  // We need to add those remaining elements to the result
+  
+  // Add remaining elements from arr1, if any
+  while (i < arr1.length) {
+    result.push(arr1[i]);
+    i++;
+  }
+  
+  // Add remaining elements from arr2, if any
+  while (j < arr2.length) {
+    result.push(arr2[j]);
+    j++;
+  }
+  
+  // Return the merged result array
+  return result;
+}
+
+// Example usage:
+let arr1 = [1, 3, 5, 7];
+let arr2 = [2, 4, 6, 8];
+console.log(mergeSortedArrays(arr1, arr2)); // Output: [1, 2, 3, 4, 5, 6, 7, 8]
