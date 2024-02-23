@@ -1,0 +1,17 @@
+function maxSubArraySum(arr) {
+  let max_so_far = arr[0];
+  let max_ending_here = arr[0];
+
+  for (let i = 1; i < arr.length; i++) {
+    // Update max_ending_here
+    max_ending_here = Math.max(arr[i], max_ending_here + arr[i]);
+    // Update max_so_far if needed
+    max_so_far = Math.max(max_so_far, max_ending_here);
+  }
+
+  return max_so_far;
+}
+
+// Example usage:
+const arr = [-2, -3, 4, -1, -2, 1, 5, -3];
+console.log(maxSubArraySum(arr)); // Output: 7
