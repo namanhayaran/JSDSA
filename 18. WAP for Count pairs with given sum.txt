@@ -1,0 +1,29 @@
+function findPairsWithSum(arr, K) {
+    let count = 0; // To store the count of pairs
+    let map = {}; // To store the occurrences of elements
+
+    // Count occurrences of each number
+    arr.forEach(num => {
+        map[num] = (map[num] || 0) + 1;
+    });
+
+    arr.forEach(num => {
+        let complement = K - num;
+        // If complement exists in the map, add its count to the total count
+        if (map[complement]) {
+            count += map[complement];
+        }
+        // If complement is the same as num, decrement count to avoid counting the pair (num, num) twice
+        if (complement == num) {
+            count--;
+        }
+    });
+
+    // Each pair is counted twice, so halve the total count
+    return count / 2;
+}
+
+// Example usage:
+const arr = [1, 5, 7, -1, 5];
+const K = 6;
+console.log(findPairsWithSum(arr, K)); // Output: 3
