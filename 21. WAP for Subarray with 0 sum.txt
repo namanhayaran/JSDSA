@@ -1,0 +1,31 @@
+function hasSubarrayWithZeroSum(arr) {
+    let sumSet = new Set();
+    let sum = 0;
+    
+    for (let i = 0; i < arr.length; i++) {
+        // Add current element to sum
+        sum += arr[i];
+        
+        // Check if current sum is 0 or
+        // sum has already been seen
+        if (sum === 0 || sumSet.has(sum)) {
+            return true;
+        }
+        
+        // Add sum to set
+        sumSet.add(sum);
+    }
+    
+    // If we reach here, then no subarray exists
+    return false;
+}
+
+// Example usage:
+const arr = [4, 2, -3, 1, 6];
+console.log(hasSubarrayWithZeroSum(arr)); // Should print true
+
+const arr2 = [4, 2, 0, 1, 6];
+console.log(hasSubarrayWithZeroSum(arr2)); // Should print true because there's a subarray with a single element 0
+
+const arr3 = [1, 4, -2, -2, 5, -4, 3];
+console.log(hasSubarrayWithZeroSum(arr3)); // Should print true
