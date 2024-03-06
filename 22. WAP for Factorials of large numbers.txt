@@ -1,0 +1,35 @@
+function factorialDigits(N) {
+    // Initialize the result array with the first element as 1
+    // because the factorial of 0 and 1 is 1.
+    let result = [1];
+
+    // Function to multiply the result array with a number x
+    function multiply(x) {
+        let carry = 0; // Initialize carry
+
+        // Perform the multiplication operation on each digit of the result array
+        for (let i = 0; i < result.length; i++) {
+            const product = result[i] * x + carry;
+            result[i] = product % 10; // Update the ith digit with the remainder
+            carry = Math.floor(product / 10); // Update the carry
+        }
+
+        // Add carry to result array if it's greater than 0
+        while (carry) {
+            result.push(carry % 10);
+            carry = Math.floor(carry / 10);
+        }
+    }
+
+    // Apply the multiply function to compute the factorial
+    for (let x = 2; x <= N; x++) {
+        multiply(x);
+    }
+
+    // Reverse the result array as the least significant digit is at the start of the array
+    return result.reverse();
+}
+
+// Example usage
+const N = 5; // You can change this to any positive integer
+console.log(factorialDigits(N));
