@@ -1,0 +1,31 @@
+function findMaxProductSubarray(arr, N) {
+  // Initialize max and min product to the first element and ensure they are BigInt
+  let maxProduct = BigInt(arr[0]);
+  let minProduct = BigInt(arr[0]);
+  // Initialize maximum product subarray value to the first element and ensure it's BigInt
+  let maxSubarrayProduct = BigInt(arr[0]);
+
+  for (let i = 1; i < N; i++) {
+    let num = BigInt(arr[i]);
+    // When a negative number is encountered, swap max and min product
+    if (num < 0n) {
+      let temp = maxProduct;
+      maxProduct = minProduct;
+      minProduct = temp;
+    }
+
+    // Calculate max and min product up to the current position using BigInt operations
+    maxProduct = (num > maxProduct * num) ? num : maxProduct * num;
+    minProduct = (num < minProduct * num) ? num : minProduct * num;
+
+    // Update maximum subarray product if needed using BigInt comparison
+    maxSubarrayProduct = (maxProduct > maxSubarrayProduct) ? maxProduct : maxSubarrayProduct;
+  }
+
+  return maxSubarrayProduct;
+}
+
+// Example usage with BigInt values
+const N = 5;
+const arr = [6n, -3n, -10n, 0n, 2n]; // Use BigInt notation for array elements
+console.log(findMaxProductSubarray(arr, N).toString()); // Output should be "180"
