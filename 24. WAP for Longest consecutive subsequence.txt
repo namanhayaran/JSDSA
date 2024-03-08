@@ -1,0 +1,28 @@
+function findLongestConseqSubseq(arr, N) {
+    let arrSet = new Set(arr); // Create a set from the array
+    let longestStreak = 0;
+
+    for (let num of arr) {
+        // Check if this is the start of a sequence
+        if (!arrSet.has(num - 1)) {
+            let currentNum = num;
+            let currentStreak = 1;
+
+            // Count the length of this consecutive sequence
+            while (arrSet.has(currentNum + 1)) {
+                currentNum += 1;
+                currentStreak += 1;
+            }
+
+            // Update the longest sequence length found
+            longestStreak = Math.max(longestStreak, currentStreak);
+        }
+    }
+
+    return longestStreak;
+}
+
+// Example usage
+const N = 7;
+const arr = [2, 6, 1, 9, 4, 5, 3];
+console.log(findLongestConseqSubseq(arr, N)); // Output: 6
