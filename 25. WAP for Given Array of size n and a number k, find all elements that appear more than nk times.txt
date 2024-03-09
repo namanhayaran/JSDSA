@@ -1,0 +1,29 @@
+function findElementsAppearingMoreThanNTimes(arr, k) {
+  let n = arr.length;
+  let result = [];
+  let countMap = {};
+
+  // Count the occurrences of each element
+  arr.forEach(element => {
+    if (countMap.hasOwnProperty(element)) {
+      countMap[element]++;
+    } else {
+      countMap[element] = 1;
+    }
+  });
+
+  // Find elements that appear more than n/k times
+  for (let element in countMap) {
+    if (countMap[element] > n / k) {
+      result.push(element);
+    }
+  }
+
+  return result;
+}
+
+// Example usage
+const arr = [3, 1, 2, 2, 1, 2, 3, 3];
+const k = 4;
+console.log(findElementsAppearingMoreThanNTimes(arr, k));
+// Output depends on the array and k value, adjust accordingly
