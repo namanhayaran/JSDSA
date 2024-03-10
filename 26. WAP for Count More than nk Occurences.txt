@@ -1,0 +1,30 @@
+function countElementsAppearingMoreThanNTimesK(arr, k) {
+    const n = arr.length;
+    const limit = Math.floor(n / k);
+    const frequencyMap = {};
+    let count = 0;
+
+    // Count the frequency of each element
+    for (let i = 0; i < n; i++) {
+        if (frequencyMap[arr[i]] !== undefined) {
+            frequencyMap[arr[i]]++;
+        } else {
+            frequencyMap[arr[i]] = 1;
+        }
+    }
+
+    // Count elements that appear more than n/k times
+    for (const key in frequencyMap) {
+        if (frequencyMap[key] > limit) {
+            count++;
+        }
+    }
+
+    return count;
+}
+
+// Example usage
+const N = 8;
+const arr = [3, 1, 2, 2, 1, 2, 3, 3];
+const k = 4;
+console.log(countElementsAppearingMoreThanNTimesK(arr, k));
