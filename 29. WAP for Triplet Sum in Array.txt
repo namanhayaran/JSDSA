@@ -1,0 +1,35 @@
+function findTriplet(arr, n, X) {
+    // Sort the array
+    arr.sort((a, b) => a - b);
+    
+    // Iterate over the array
+    for (let i = 0; i < n - 2; i++) {
+        // Left and right pointers
+        let left = i + 1, right = n - 1;
+        
+        // Check if a triplet is found
+        while (left < right) {
+            const sum = arr[i] + arr[left] + arr[right];
+            
+            if (sum === X) {
+                // Triplet is found
+                console.log(`Triplet found: {${arr[i]}, ${arr[left]}, ${arr[right]}}`);
+                return 1; // Return 1 if a triplet with sum X is found
+            } else if (sum < X) {
+                left++; // Move the left pointer to right
+            } else {
+                right--; // Move the right pointer to left
+            }
+        }
+    }
+    
+    // No triplet found
+    return 0;
+}
+
+// Example usage
+const n = 6, X = 13;
+const arr = [1, 4, 45, 6, 10, 8];
+const result = findTriplet(arr, n, X);
+console.log(`Output: ${result}`);
+// Output will be 1 if a triplet is found that sums up to X, else 0.
