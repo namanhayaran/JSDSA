@@ -1,0 +1,30 @@
+function trapRainWater(arr, N) {
+    let left = 0, right = N - 1;
+    let maxLeft = 0, maxRight = 0;
+    let trappedWater = 0;
+
+    while (left < right) {
+        if (arr[left] < arr[right]) {
+            if (arr[left] >= maxLeft) {
+                maxLeft = arr[left];
+            } else {
+                trappedWater += maxLeft - arr[left];
+            }
+            left++;
+        } else {
+            if (arr[right] >= maxRight) {
+                maxRight = arr[right];
+            } else {
+                trappedWater += maxRight - arr[right];
+            }
+            right--;
+        }
+    }
+
+    return trappedWater;
+}
+
+// Example usage with the given input:
+const N = 4;
+const arr = [7, 4, 0, 9];
+console.log(trapRainWater(arr, N)); // Output: 10
