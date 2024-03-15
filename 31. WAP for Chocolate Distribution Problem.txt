@@ -1,0 +1,21 @@
+function findMinDiff(arr, N, M) {
+     Sort the array
+    arr.sort((a, b) = a - b);
+
+     Initialize difference as infinite
+    let minDiff = Infinity;
+
+     Find the minimum difference
+    for (let i = 0; i + M - 1  N; i++) {
+        let diff = arr[i + M - 1] - arr[i];
+        if (diff  minDiff) {
+            minDiff = diff;
+        }
+    }
+    return minDiff;
+}
+
+ Example usage
+const N = 8, M = 5;
+const A = [3, 4, 1, 9, 56, 7, 9, 12];
+console.log(findMinDiff(A, N, M));  Output 6
