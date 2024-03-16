@@ -1,0 +1,25 @@
+function findSmallestSubarraySum(a, x) {
+    let minLength = Infinity; // Initialize minLength with Infinity
+    let start = 0; // Starting index of the subarray
+    let sum = 0; // Sum of elements in the current subarray
+
+    for (let end = 0; end < a.length; end++) {
+        // Add the current element to the sum
+        sum += a[end];
+
+        // While the sum is greater than x, shrink the window from the left
+        while (sum > x) {
+            minLength = Math.min(minLength, end - start + 1); // Update minLength if a smaller subarray is found
+            sum -= a[start]; // Remove the element at 'start' from the sum
+            start++; // Move the start index forward to shrink the window
+        }
+    }
+
+    // Return minLength if a subarray is found; otherwise, return 0
+    return minLength === Infinity ? 0 : minLength;
+}
+
+// Example
+const a = [1, 4, 45, 6, 0, 19];
+const x = 51;
+console.log(findSmallestSubarraySum(a, x)); // Output: 3
