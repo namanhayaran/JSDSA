@@ -1,0 +1,33 @@
+function minSwap(arr, n, k) {
+    // Count elements which are less than or equal to k
+    let count = 0;
+    for (let i = 0; i < n; i++) {
+        if (arr[i] <= k) count++;
+    }
+
+    // Find the initial number of elements greater than k in the first window
+    let bad = 0;
+    for (let i = 0; i < count; i++) {
+        if (arr[i] > k) bad++;
+    }
+
+    // Initialize answer with the initial bad element count in the first window
+    let ans = bad;
+    for (let i = 0, j = count; j < n; i++, j++) {
+        // Decrease count of previous window's last element if it was greater than k
+        if (arr[i] > k) bad--;
+        // Increase count of current window's last element if it is greater than k
+        if (arr[j] > k) bad++;
+
+        // Update answer if this window's bad count is less than minimum so far
+        ans = Math.min(ans, bad);
+    }
+
+    return ans;
+}
+
+// Example usage
+const arr = [2, 1, 5, 6, 3];
+const n = arr.length;
+const k = 3;
+console.log(minSwap(arr, n, k));
