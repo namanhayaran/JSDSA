@@ -1,0 +1,36 @@
+function PalinArray(arr, n) {
+    // Helper function to check if a string is a palindrome
+    function isPalindrome(str) {
+        let left = 0;
+        let right = str.length - 1;
+        
+        while (left < right) {
+            if (str[left] !== str[right]) {
+                return false;
+            }
+            left++;
+            right--;
+        }
+        
+        return true;
+    }
+    
+    // Iterate through each element in the array
+    for (let i = 0; i < n; i++) {
+        // Convert the number to a string to check palindrome
+        let str = arr[i].toString();
+        
+        // If any element is not a palindrome, return 0
+        if (!isPalindrome(str)) {
+            return 0;
+        }
+    }
+    
+    // If all elements are palindromes, return 1
+    return 1;
+}
+
+// Example usage
+let arr = [111, 222, 333, 444, 555];
+let n = arr.length;
+console.log(PalinArray(arr, n)); // Output: 1
