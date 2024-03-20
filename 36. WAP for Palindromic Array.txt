@@ -1,0 +1,23 @@
+function PalinArray(arr, n) {
+    function isPalindrome(number) {
+        const str = number.toString();
+        for (let i = 0, j = str.length - 1; i < j; i++, j--) {
+            if (str[i] !== str[j]) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    for (let i = 0; i < n; i++) {
+        if (!isPalindrome(arr[i])) {
+            return 0;
+        }
+    }
+    return 1;
+}
+
+// Example usage
+const inputArray = [111, 222, 333, 444, 555];
+const n = inputArray.length;
+console.log(PalinArray(inputArray, n)); // This will output 1
