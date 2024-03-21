@@ -1,0 +1,24 @@
+function findMedian(arr) {
+  // Sort the array
+  arr.sort((a, b) => a - b);
+
+  const n = arr.length;
+  let median = 0;
+
+  // Check if the number of elements is odd
+  if (n % 2 !== 0) {
+    // Median for odd number of elements is the middle element
+    median = arr[Math.floor(n / 2)];
+  } else {
+    // Median for even number of elements is the average of the two middle elements
+    // Since we need to return the floor value of the median, we use Math.floor
+    median = Math.floor((arr[n / 2 - 1] + arr[n / 2]) / 2);
+  }
+
+  return median;
+}
+
+// Example usage
+const arr = [90, 100, 78, 89, 67];
+const median = findMedian(arr);
+console.log(median); // Output: 89
