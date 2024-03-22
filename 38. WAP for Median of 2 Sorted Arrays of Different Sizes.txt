@@ -1,0 +1,48 @@
+class Solution {
+    MedianOfArrays(arr1, arr2){
+         Merge the two arrays
+        let mergedArray = this.mergeSortedArrays(arr1, arr2);
+        
+         Calculate the median
+        let midIndex = Math.floor(mergedArray.length  2);
+        if (mergedArray.length % 2 === 0) {
+             If even number of elements, average the two middle elements
+            return (mergedArray[midIndex - 1] + mergedArray[midIndex])  2;
+        } else {
+             If odd number of elements, return the middle element
+            return mergedArray[midIndex];
+        }
+    }
+
+    mergeSortedArrays(array1, array2) {
+        let merged = [];
+        let i = 0, j = 0;
+        
+         Merge arrays until one is exhausted
+        while (i  array1.length && j  array2.length) {
+            if (array1[i]  array2[j]) {
+                merged.push(array1[i++]);
+            } else {
+                merged.push(array2[j++]);
+            }
+        }
+        
+         Append any remaining elements from array1
+        while (i  array1.length) {
+            merged.push(array1[i++]);
+        }
+        
+         Append any remaining elements from array2
+        while (j  array2.length) {
+            merged.push(array2[j++]);
+        }
+        
+        return merged;
+    }
+}
+
+ Example usage
+let solution = new Solution();
+let arr1 = [1, 5, 9];
+let arr2 = [2, 3, 6, 7];
+console.log(solution.MedianOfArrays(arr1, arr2));   Output 5
