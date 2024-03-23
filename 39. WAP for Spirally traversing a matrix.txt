@@ -1,0 +1,49 @@
+function spirallyTraverse(matrix, r, c) {
+    let result = [];
+    let startRow = 0, endRow = r - 1;
+    let startCol = 0, endCol = c - 1;
+  
+    while (startRow <= endRow && startCol <= endCol) {
+        // Traverse Right
+        for (let col = startCol; col <= endCol; col++) {
+            result.push(matrix[startRow][col]);
+        }
+        startRow++;
+        
+        // Traverse Down
+        for (let row = startRow; row <= endRow; row++) {
+            result.push(matrix[row][endCol]);
+        }
+        endCol--;
+        
+        // Traverse Left
+        if (startRow <= endRow) { // Check to prevent double traversal if single row is left
+            for (let col = endCol; col >= startCol; col--) {
+                result.push(matrix[endRow][col]);
+            }
+        }
+        endRow--;
+        
+        // Traverse Up
+        if (startCol <= endCol) { // Check to prevent double traversal if single column is left
+            for (let row = endRow; row >= startRow; row--) {
+                result.push(matrix[row][startCol]);
+            }
+        }
+        startCol++;
+    }
+    return result;
+}
+
+// Example usage
+const matrix = [
+  [1, 2, 3, 4],
+  [5, 6, 7, 8],
+  [9, 10, 11, 12],
+  [13, 14, 15, 16]
+];
+
+const r = 4;
+const c = 4;
+
+console.log(spirallyTraverse(matrix, r, c));
