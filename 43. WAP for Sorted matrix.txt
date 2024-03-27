@@ -1,0 +1,26 @@
+function sortedMatrix(N, Mat) {
+    // Step 1: Flatten the matrix
+    let flattened = Mat.reduce((acc, val) => acc.concat(val), []);
+    
+    // Step 2: Sort the flattened array
+    flattened.sort((a, b) => a - b);
+    
+    // Step 3: Reconstruct the matrix
+    let result = [];
+    for (let i = 0; i < N; i++) {
+        result.push(flattened.slice(i * N, (i + 1) * N));
+    }
+    
+    return result;
+}
+
+// Example usage
+const N = 4;
+const Mat = [
+    [10, 20, 30, 40],
+    [15, 25, 35, 45],
+    [27, 29, 37, 48],
+    [32, 33, 39, 50]
+];
+
+console.log(sortedMatrix(N, Mat));
