@@ -1,0 +1,39 @@
+function rotateMatrix90Clockwise(matrix) {
+    const N = matrix.length;
+
+    // Transpose the matrix
+    for (let i = 0; i < N; i++) {
+        for (let j = i; j < N; j++) {
+            let temp = matrix[i][j];
+            matrix[i][j] = matrix[j][i];
+            matrix[j][i] = temp;
+        }
+    }
+
+    // Reverse each row
+    for (let i = 0; i < N; i++) {
+        for (let j = 0; j < N / 2; j++) {
+            let temp = matrix[i][j];
+            matrix[i][j] = matrix[i][N - j - 1];
+            matrix[i][N - j - 1] = temp;
+        }
+    }
+}
+
+// Example usage:
+let matrix1 = [
+    [1, 2, 3],
+    [4, 5, 6],
+    [7, 8, 9]
+];
+rotateMatrix90Clockwise(matrix1);
+console.log('Rotated Matrix:');
+console.log(matrix1);
+
+let matrix2 = [
+    [1, 2],
+    [3, 4]
+];
+rotateMatrix90Clockwise(matrix2);
+console.log('Rotated Matrix:');
+console.log(matrix2);
