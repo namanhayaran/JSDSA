@@ -1,0 +1,47 @@
+class Solution {
+  countLessEqual(matrix, mid, smaller, larger) {
+    const n = matrix.length;
+    let count = 0;
+    let row = n - 1;
+    let col = 0;
+
+    while (row >= 0 && col < n) {
+        if (matrix[row][col] > mid) {
+            larger = Math.min(larger, matrix[row][col]);
+            row--;
+        } else {
+            smaller = Math.max(smaller, matrix[row][col]);
+            count += row + 1;
+            col++;
+        }
+    }
+    
+    return {count, smaller, larger};
+  }
+
+  kthSmallest(mat, n, k){
+    let start = mat[0][0];
+    let end = mat[n - 1][n - 1];
+
+    while (start < end) {
+        let mid = start + Math.floor((end - start) / 2);
+        let smaller = start;
+        let larger = end;
+        let {count, smaller: newSmaller, larger: newLarger} = this.countLessEqual(mat, mid, smaller, larger);
+
+        if (count == k) return newSmaller;
+        if (count < k) start = newLarger; // Search higher
+        else end = newSmaller; // Search lower
+    }
+
+    return start;
+  }
+}
+
+// Example usage:
+const solution = new Solution();
+const mat = [[16, 28, 60, 64], [22, 41, 63, 91], [27, 50, 87, 93], [36, 78, 87, 94]];
+const n = 4; // The size of the matrix (N x N)
+const k = 3; // The kth element to find
+
+console.log(solution.kthSmallest(mat, n, k)); // Output: 27
