@@ -1,0 +1,32 @@
+function findCommonElements(matrix) {
+  const m = matrix.length;
+  const n = matrix[0].length;
+  const elementMap = {};
+  
+  for (let i = 0; i < m; i++) {
+    for (let j = 0; j < n; j++) {
+      const elem = matrix[i][j];
+      
+      // If element is not present or was last updated in a previous row
+      if (!elementMap[elem] || elementMap[elem].row < i) {
+        elementMap[elem] = {
+          count: elementMap[elem] ? elementMap[elem].count + 1 : 1,
+          row: i
+        };
+      }
+    }
+  }
+  
+  // Filter elements present in all rows
+  const commonElements = Object.keys(elementMap).filter(elem => elementMap[elem].count === m);
+  return commonElements.map(Number); // Convert keys back to numbers if needed
+}
+
+// Example usage
+const mat = [
+  [1, 2, 1, 4, 8],
+  [3, 7, 8, 5, 1],
+  [8, 7, 7, 3, 1],
+  [8, 1, 2, 7, 9]
+];
+console.log(findCommonElements(mat));
