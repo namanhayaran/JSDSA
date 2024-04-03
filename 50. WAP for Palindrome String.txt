@@ -1,0 +1,14 @@
+function isPalindrome(S) {
+    // Convert string to lowercase to make the check case-insensitive
+    const lowerCaseStr = S.toLowerCase();
+    
+    // Reverse the string
+    const reversedStr = lowerCaseStr.split('').reverse().join('');
+    
+    // Check if the original string is equal to its reverse
+    return lowerCaseStr === reversedStr ? 1 : 0;
+}
+
+// Example usage
+const inputString = "abba";
+console.log(isPalindrome(inputString)); // Output: 1 (true)
