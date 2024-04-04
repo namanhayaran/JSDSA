@@ -1,0 +1,26 @@
+function printDuplicateCharactersWithCount(inputString) {
+  // Create a map to keep track of character occurrences
+  const charCountMap = new Map();
+  
+  // Loop through each character in the input string
+  for (const char of inputString) {
+    // If the character is already in the map, increment its count
+    if (charCountMap.has(char)) {
+      charCountMap.set(char, charCountMap.get(char) + 1);
+    } else {
+      // Otherwise, add the character to the map with a count of 1
+      charCountMap.set(char, 1);
+    }
+  }
+  
+  // Loop through the map and print characters with count > 1
+  charCountMap.forEach((count, char) => {
+    if (count > 1) {
+      console.log(`${char}, count = ${count}`);
+    }
+  });
+}
+
+// Example usage:
+const S = "geeksforgeeks";
+printDuplicateCharactersWithCount(S);
