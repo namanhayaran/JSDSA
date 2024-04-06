@@ -1,0 +1,36 @@
+function isValidShuffle(str, first, second) {
+  // Check if the total length matches.
+  if (str.length !== first.length + second.length) {
+    return false;
+  }
+
+  let i = 0, j = 0, k = 0;
+
+  // Traverse the shuffle string.
+  while (k < str.length) {
+    // If first character of first string matches with the character in str
+    if (i < first.length && first[i] === str[k]) {
+      i++;
+    }
+    // If first character of second string matches with the character in str
+    else if (j < second.length && second[j] === str[k]) {
+      j++;
+    }
+    // If the character doesn't match with either the first or second string, return false.
+    else {
+      return false;
+    }
+    k++;
+  }
+
+  // If all characters of 'first' and 'second' were not used, then it is not a valid shuffle.
+  if (i < first.length || j < second.length) {
+    return false;
+  }
+
+  return true;
+}
+
+// Example
+console.log(isValidShuffle("1a2b", "12", "ab")); // true
+console.log(isValidShuffle("abc12", "ab", "123")); // false
