@@ -1,0 +1,23 @@
+function longestRepeatingSubseq(str) {
+    let n = str.length;
+    let dp = Array.from({ length: n + 1 }, () => Array(n + 1).fill(0));
+
+    // Building the dp matrix
+    for (let i = 1; i <= n; i++) {
+        for (let j = 1; j <= n; j++) {
+            // Characters match and are not at the same index in the original string
+            if (str[i - 1] === str[j - 1] && i !== j) {
+                dp[i][j] = dp[i - 1][j - 1] + 1;
+            } else {
+                dp[i][j] = Math.max(dp[i - 1][j], dp[i][j - 1]);
+            }
+        }
+    }
+
+    // The bottom right cell will have the answer
+    return dp[n][n];
+}
+
+// Example usage
+const str = "axxzxy";
+console.log(longestRepeatingSubseq(str)); // Output: 2
