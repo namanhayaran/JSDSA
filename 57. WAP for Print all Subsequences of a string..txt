@@ -1,0 +1,31 @@
+function getAllSubsequences(str) {
+    let subsequences = new Set();
+
+    // Recursive function to generate all subsequences
+    function generateSubsequences(index, currentSubsequence) {
+        if (index === str.length) {
+            if (currentSubsequence !== "" && 
+                "aeiou".includes(currentSubsequence[0].toLowerCase()) && 
+                !"aeiou".includes(currentSubsequence[currentSubsequence.length - 1].toLowerCase())) {
+                subsequences.add(currentSubsequence);
+            }
+            return;
+        }
+
+        // Option 1: Include the current character
+        generateSubsequences(index + 1, currentSubsequence + str[index]);
+
+        // Option 2: Exclude the current character
+        generateSubsequences(index + 1, currentSubsequence);
+    }
+
+    generateSubsequences(0, "");
+
+    // Convert Set to Array, sort it, and return
+    return Array.from(subsequences).sort();
+}
+
+// Example usage:
+let inputStr = "abc";
+let output = getAllSubsequences(inputStr);
+console.log(output); // Expected Output: ["ab", "ac", "abc"]
