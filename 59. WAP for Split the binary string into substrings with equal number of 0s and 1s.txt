@@ -1,0 +1,28 @@
+function maxBalancedSubstrings(S) {
+    let count0 = 0, count1 = 0;
+    let maxSubstrings = 0;
+
+    for (let i = 0; i < S.length; i++) {
+        if (S[i] === '0') {
+            count0++;
+        } else {
+            count1++;
+        }
+
+        // When the counts are equal, it means we have a balanced substring
+        if (count0 === count1) {
+            maxSubstrings++;
+        }
+    }
+
+    // Check if the total number of 0's and 1's are equal by the end of the string
+    if (count0 !== count1) {
+        return -1; // the entire string is not balanced
+    }
+
+    return maxSubstrings;
+}
+
+// Test cases
+console.log(maxBalancedSubstrings("0100110101")); // Output should be 4
+console.log(maxBalancedSubstrings("001110010"));  // Output should be -1
