@@ -1,0 +1,31 @@
+function generatePermutations(S) {
+    const result = new Set();
+
+    // Helper function for backtracking
+    function backtrack(permutation, remaining) {
+        if (permutation.length === S.length) {
+            result.add(permutation);
+            return;
+        }
+
+        for (let i = 0; i < remaining.length; i++) {
+            // Choose
+            let nextPermutation = permutation + remaining[i];
+            let nextRemaining = remaining.substring(0, i) + remaining.substring(i + 1);
+
+            // Explore
+            backtrack(nextPermutation, nextRemaining);
+        }
+    }
+
+    // Start the recursion with an empty permutation and the full input string
+    backtrack("", S);
+
+    // Convert result to an array, sort it, and return
+    return Array.from(result).sort();
+}
+
+// Example usage
+const S = "ABC";
+const permutations = generatePermutations(S);
+console.log(permutations.join(' '));
