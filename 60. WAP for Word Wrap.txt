@@ -1,0 +1,40 @@
+function wordWrap(nums, k) {
+    let n = nums.length;
+    let dp = new Array(n + 1).fill(Infinity);
+    let extraSpaces = new Array(n + 1).fill(0).map(() => new Array(n + 1).fill(0));
+    let cost = new Array(n + 1).fill(0).map(() => new Array(n + 1).fill(0));
+    
+    // Precompute extra spaces and their costs
+    for (let i = 1; i <= n; i++) {
+        extraSpaces[i][i] = k - nums[i - 1];
+        for (let j = i + 1; j <= n; j++) {
+            extraSpaces[i][j] = extraSpaces[i][j - 1] - nums[j - 1] - 1;
+        }
+    }
+    
+    for (let i = 1; i <= n; i++) {
+        for (let j = i; j <= n; j++) {
+            if (extraSpaces[i][j] < 0) {
+                cost[i][j] = Infinity;
+            } else if (j === n && extraSpaces[i][j] >= 0) {
+                cost[i][j] = 0; // No cost for the last line
+            } else {
+                cost[i][j] = extraSpaces[i][j] * extraSpaces[i][j];
+            }
+        }
+    }
+    
+    dp[0] = 0; // Base case: no words, no cost
+    for (let j = 1; j <= n; j++) {
+        for (let i = 1; i <= j; i++) {
+            if (dp[i - 1] !== Infinity && cost[i][j] !== Infinity) {
+                dp[j] = Math.min(dp[j], dp[i - 1] + cost[i][j]);
+            }
+        }
+    }
+    
+    return dp[n];
+}
+
+// Example usage
+console.log(wordWrap([3, 2, 2, 5], 6)); // Output: 10
