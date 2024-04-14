@@ -1,0 +1,39 @@
+function minDistance(s, t) {
+    const m = s.length;
+    const n = t.length;
+    // Create a table to store results of subproblems
+    let dp = Array.from({length: m + 1}, () => Array(n + 1));
+
+    // Fill dp[][] in bottom up manner
+    for (let i = 0; i <= m; i++) {
+        for (let j = 0; j <= n; j++) {
+            // If first string is empty, only option is to insert all characters of second string
+            if (i === 0) {
+                dp[i][j] = j;  // Min. operations = j
+            }
+            // If second string is empty, only option is to remove all characters of first string
+            else if (j === 0) {
+                dp[i][j] = i;  // Min. operations = i
+            }
+            // If last characters are the same, ignore the last char and recur for remaining string
+            else if (s[i - 1] === t[j - 1]) {
+                dp[i][j] = dp[i - 1][j - 1];
+            }
+            // If the last character is different, consider all possibilities and find the minimum
+            else {
+                dp[i][j] = 1 + Math.min(dp[i][j - 1],    // Insert
+                                         dp[i - 1][j],    // Remove
+                                         dp[i - 1][j - 1] // Replace
+                                        );
+            }
+        }
+    }
+
+    // The answer is in the bottom-right corner of the matrix
+    return dp[m][n];
+}
+
+// Example usage
+const s = "geek";
+const t = "gesek";
+console.log(minDistance(s, t));  // Output: 1
