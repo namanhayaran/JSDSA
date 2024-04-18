@@ -1,0 +1,23 @@
+function wordBreak(s, dictionary) {
+    let n = s.length;
+    let wordDict = new Set(dictionary); // Convert array to Set for faster lookup
+    let dp = new Array(n + 1).fill(false);
+    dp[0] = true; // Base case: empty string can always be segmented
+
+    for (let i = 1; i <= n; i++) {
+        for (let j = 0; j < i; j++) {
+            // Check if the substring from j to i is in dictionary and dp[j] is true
+            if (dp[j] && wordDict.has(s.substring(j, i))) {
+                dp[i] = true;
+                break; // Found a valid split, no need to check further for this position
+            }
+        }
+    }
+
+    return dp[n] ? 1 : 0; // Return 1 if dp[n] is true, otherwise return 0
+}
+
+// Example usage
+const dictionary = ["i", "like", "sam", "sung", "samsung", "mobile"];
+const s = "ilike";
+console.log(wordBreak(s, dictionary)); // Outputs: 1
