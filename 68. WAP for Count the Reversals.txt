@@ -1,0 +1,23 @@
+function minReversals(S) {
+    let left = 0, right = 0;
+
+    for (let i = 0; i < S.length; i++) {
+        if (S[i] === '{') {
+            left++;
+        } else if (S[i] === '}') {
+            if (left > 0) {
+                left--;
+            } else {
+                right++;
+            }
+        }
+    }
+
+    // Each unmatched '{' needs to be paired with an unmatched '}', thus half the sum of 'left' and 'right'
+    // We use Math.ceil because each mismatch must be paired, so if there's an odd one, it requires an extra reversal.
+    return Math.ceil(left / 2) + Math.ceil(right / 2);
+}
+
+// Example usage
+const S = "}{{}}{{{";
+console.log(minReversals(S)); // Output: 3
