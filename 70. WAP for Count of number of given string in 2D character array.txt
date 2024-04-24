@@ -1,0 +1,68 @@
+function findStringIn2DArray(grid, word) {
+    const rows = grid.length;
+    const cols = grid[0].length;
+    const wordLength = word.length;
+
+    // Helper function to check the word in all directions
+    function searchFromPosition(x, y) {
+        if (x < 0 || y < 0 || x >= rows || y >= cols) return false;
+
+        // Directions: [dx, dy] -> dx is the row increment, dy is the column increment
+        const directions = [
+            [0, 1],  // Right
+            [0, -1], // Left
+            [1, 0],  // Down
+            [-1, 0]  // Up
+        ];
+
+        // Check all directions
+        for (let [dx, dy] of directions) {
+            let match = true;
+            for (let i = 0; i < wordLength; i++) {
+                const newX = x + i * dx;
+                const newY = y + i * dy;
+
+                // Check if the new coordinates are out of bounds
+                if (newX < 0 || newY < 0 || newX >= rows || newY >= cols) {
+                    match = false;
+                    break;
+                }
+
+                // Check if the character matches
+                if (grid[newX][newY] !== word[i]) {
+                    match = false;
+                    break;
+                }
+            }
+
+            if (match) return true;  // Found the word in this direction
+        }
+        return false;
+    }
+
+    // Search from every possible starting position
+    for (let i = 0; i < rows; i++) {
+        for (let j = 0; j < cols; j++) {
+            if (searchFromPosition(i, j)) {
+                return true;  // Word found
+            }
+        }
+    }
+
+    return false;  // Word not found
+}
+
+// Example usage:
+const grid = [
+    ['A', 'B', 'C', 'E'],
+    ['S', 'F', 'C', 'S'],
+    ['A', 'D', 'E', 'E']
+];
+
+const word1 = "ABCCED"; // Should return true
+const word2 = "SEE";    // Should return true
+const word3 = "ABCB";   // Should return false
+
+console.log(findStringIn2DArray(grid, word1)); // true
+console.log(findStringIn2DArray(grid, word2)); // true
+console.log(findStringIn2DArray(grid, word3)); // false
