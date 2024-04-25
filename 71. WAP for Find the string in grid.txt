@@ -1,0 +1,32 @@
+def find_word_in_grid(grid, word):
+    n = len(grid)    # Number of rows
+    m = len(grid[0]) # Number of columns
+    directions = [(-1, 0), (1, 0), (0, -1), (0, 1),
+                  (-1, -1), (-1, 1), (1, -1), (1, 1)]
+    word_length = len(word)
+    found_positions = set()
+
+    def can_find_word(x, y, dx, dy):
+        # Check if we can match the word starting at (x, y) in direction (dx, dy)
+        for i in range(word_length):
+            nx, ny = x + i * dx, y + i * dy
+            if nx < 0 or nx >= n or ny < 0 or ny >= m or grid[nx][ny] != word[i]:
+                return False
+        return True
+
+    for i in range(n):
+        for j in range(m):
+            if grid[i][j] == word[0]:  # Potential start of the word
+                for dx, dy in directions:
+                    if can_find_word(i, j, dx, dy):
+                        found_positions.add((i, j))
+                        break
+
+    # Return lexicographically sorted list of tuples
+    return sorted(found_positions)
+
+# Example usage
+grid = [['a', 'b', 'c'], ['d', 'r', 'f'], ['g', 'h', 'i']]
+word = "abc"
+result = find_word_in_grid(grid, word)
+print(result)  # Output: [(0, 0)]
