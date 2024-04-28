@@ -1,0 +1,47 @@
+function buildBadMatchTable(pattern) {
+    const table = {};
+    const patLen = pattern.length;
+  
+    for (let i = 0; i < patLen - 1; i++) {
+        table[pattern[i]] = patLen - 1 - i;
+    }
+  
+    if (table[pattern[patLen - 1]] === undefined) {
+        table[pattern[patLen - 1]] = patLen;
+    }
+  
+    return table;
+}
+
+function boyerMoore(text, pattern) {
+    if (pattern.length === 0) {
+        return 0;
+    }
+  
+    const badMatchTable = buildBadMatchTable(pattern);
+    const patLen = pattern.length;
+    const txtLen = text.length;
+    let shift = 0;
+  
+    while (shift <= txtLen - patLen) {
+        let patIdx = patLen - 1;
+  
+        while (patIdx >= 0 && pattern[patIdx] === text[shift + patIdx]) {
+            patIdx--;
+        }
+  
+        if (patIdx < 0) {
+            console.log("Pattern occurs at index", shift);
+            // If the whole pattern has been matched, shift to align with the next character in the text
+            shift += (shift + patLen < txtLen) ? patLen - (badMatchTable[text[shift + patLen]] || patLen) : 1;
+        } else {
+            // Shift the pattern so that the bad character aligns with its last occurrence in the pattern
+            shift += Math.max(1, patIdx - (badMatchTable[text[shift + patIdx]] || 0));
+        }
+    }
+}
+
+// Example usage
+const text = "ABAAABCDABC";
+const pattern = "ABC";
+boyerMoore(text, pattern);
