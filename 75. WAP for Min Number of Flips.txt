@@ -1,0 +1,21 @@
+function minFlipsToAlternate(S) {
+  let flipsForA = 0; // Flips needed to match sequence starting with '0'
+  let flipsForB = 0; // Flips needed to match sequence starting with '1'
+
+  for (let i = 0; i < S.length; i++) {
+    // Expected char in sequence A and B at position i
+    let expectedCharA = (i % 2 === 0) ? '0' : '1';
+    let expectedCharB = (i % 2 === 0) ? '1' : '0';
+    
+    if (S[i] !== expectedCharA) flipsForA++;
+    if (S[i] !== expectedCharB) flipsForB++;
+  }
+
+  // Return the minimum of flipsForA and flipsForB
+  return Math.min(flipsForA, flipsForB);
+}
+
+// Test cases
+console.log(minFlipsToAlternate("001"));  // Output: 1
+console.log(minFlipsToAlternate("0001")); // Output: 1
+console.log(minFlipsToAlternate("01010")); // Output: 0
