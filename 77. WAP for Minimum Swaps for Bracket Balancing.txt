@@ -1,0 +1,26 @@
+function minSwapsToBalance(S) {
+    let openNeeded = 0;   // Tracks the number of opening brackets needed to balance.
+    let closeNeeded = 0;  // Tracks the number of closing brackets needed to balance.
+
+    // Traverse the string from left to right
+    for (let i = 0; i < S.length; i++) {
+        if (S[i] === '[') {
+            if (closeNeeded > 0) {
+                // We have unmatched closing brackets before this, so we can balance one of them.
+                closeNeeded--;
+            } else {
+                // This is an extra opening bracket
+                openNeeded++;
+            }
+        } else { // It's a ']'
+            closeNeeded++; // We need one more opening bracket to balance this
+        }
+    }
+
+    // The minimum swaps needed is essentially the number of unmatched closing brackets
+    // divided by 2, rounded up, because each swap can fix two imbalances.
+    return Math.ceil(closeNeeded / 2);
+}
+
+// Example usage:
+console.log(minSwapsToBalance("[]][][")); // Output should be 2
