@@ -1,0 +1,27 @@
+function lcs(x, y, s1, s2) {
+    // Create a 2D array to store the lengths of longest common subsequence.
+    // Initialize all values in dp array as 0.
+    const dp = Array.from({ length: x + 1 }, () => Array(y + 1).fill(0));
+
+    // Following steps build dp[x+1][y+1] in bottom up fashion.
+    // Note that dp[i][j] will be the length of LCS of s1[0..i-1], s2[0..j-1]
+    for (let i = 1; i <= x; i++) {
+        for (let j = 1; j <= y; j++) {
+            if (s1[i - 1] === s2[j - 1]) {
+                // If characters match, consider this character as part of LCS
+                dp[i][j] = dp[i - 1][j - 1] + 1;
+            } else {
+                // If not matching, consider the maximum of excluding current character from either of the strings
+                dp[i][j] = Math.max(dp[i - 1][j], dp[i][j - 1]);
+            }
+        }
+    }
+
+    // dp[x][y] contains the length of LCS for s1[0..x-1], s2[0..y-1]
+    return dp[x][y];
+}
+
+// Example usage
+const str1 = "ABCDGH";
+const str2 = "AEDFHR";
+console.log(lcs(str1.length, str2.length, str1, str2)); // Output: 3
