@@ -1,0 +1,44 @@
+function restoreIpAddresses(s) {
+    const result = [];
+
+    function backtrack(start = 0, parts = [], dots = 0) {
+        // If we have placed three dots and we are at the end of the string
+        if (dots === 3) {
+            // Check the last part
+            const lastPart = s.slice(start);
+            if (isValidPart(lastPart)) {
+                parts.push(lastPart);
+                result.push(parts.join('.'));
+                parts.pop();
+            }
+            return;
+        }
+
+        // Try to place another dot at different positions
+        for (let i = 1; i <= 3; i++) {
+            if (start + i > s.length) break;  // Out of bounds
+            const segment = s.substring(start, start + i);
+            if (isValidPart(segment)) {
+                parts.push(segment);  // Choose
+                backtrack(start + i, parts, dots + 1);  // Explore
+                parts.pop();  // Unchoose
+            }
+        }
+    }
+
+    function isValidPart(part) {
+        if (part.length > 3) return false;
+        if (part[0] === '0' && part.length > 1) return false;
+        const num = parseInt(part);
+        return num >= 0 && num <= 255;
+    }
+
+    // Start the backtracking from index 0, no parts yet, no dots placed
+    backtrack();
+
+    return result;
+}
+
+// Example usage:
+console.log(restoreIpAddresses("25525511135"));  // ["255.255.11.135", "255.255.111.35"]
+console.log(restoreIpAddresses("25505011535"));  // []
