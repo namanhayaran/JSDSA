@@ -1,0 +1,47 @@
+function findSmallestWindowContainingAllChars(s) {
+    const n = s.length;
+    const uniqueChars = new Set(s);
+    const requiredSize = uniqueChars.size;
+    let charCount = {};
+    let formed = 0;
+    let l = 0, r = 0;
+    let minLen = Infinity, minL = 0, minR = 0;
+
+    while (r < n) {
+        // Expand the window by adding one character to the right
+        const charR = s[r];
+        charCount[charR] = (charCount[charR] || 0) + 1;
+
+        // If the count of the current character equals 1, we have one unique char matching
+        if (charCount[charR] === 1 && uniqueChars.has(charR)) {
+            formed++;
+        }
+
+        // Try to contract the window till the point it ceases to be 'desirable'
+        while (l <= r && formed === requiredSize) {
+            const charL = s[l];
+
+            // Save the smallest window until now.
+            if (r - l + 1 < minLen) {
+                minLen = r - l + 1;
+                minL = l;
+                minR = r;
+            }
+
+            // Contracting from the left
+            charCount[charL]--;
+            if (charCount[charL] === 0 && uniqueChars.has(charL)) {
+                formed--;
+            }
+            l++;
+        }
+
+        // Expand to the right
+        r++;
+    }
+
+    return minLen;
+}
+
+// Example usage
+console.log(findSmallestWindowContainingAllChars("AABBBCBBAC")); // Output: 3
