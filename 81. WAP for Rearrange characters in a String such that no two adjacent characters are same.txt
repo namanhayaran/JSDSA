@@ -1,0 +1,48 @@
+function rearrangeString(str) {
+    const countMap = new Map();
+    // Count occurrences of each character
+    for (const char of str) {
+        countMap.set(char, (countMap.get(char) || 0) + 1);
+    }
+
+    // Priority queue, sort by most frequent characters
+    const maxHeap = [];
+    for (const [char, count] of countMap) {
+        maxHeap.push({char, count});
+    }
+    maxHeap.sort((a, b) => b.count - a.count);
+
+    let result = [];
+    let prevChar = null;
+    let prevCount = 0;
+
+    while (maxHeap.length > 0) {
+        // Pop the most frequent character
+        const { char, count } = maxHeap.shift();
+
+        if (prevChar && prevCount > 0) {
+            // Push previous character back to heap if it still has occurrences left
+            maxHeap.push({ char: prevChar, count: prevCount });
+            maxHeap.sort((a, b) => b.count - a.count);
+        }
+
+        // Add current character to result
+        result.push(char);
+
+        // Set this character as the previous and decrement the count
+        prevChar = char;
+        prevCount = count - 1;
+    }
+
+    // Final check to ensure the last character is not the same as the previous one
+    if (prevChar && prevCount > 0) {
+        return "Not possible";
+    }
+
+    return result.join("");
+}
+
+// Example usage
+console.log(rearrangeString("aaabc"));  // Output: "abaca" or similar valid output
+console.log(rearrangeString("aaabb"));  // Output: "ababa" or similar valid output
+console.log(rearrangeString("aaa"));    // Output: "Not possible"
