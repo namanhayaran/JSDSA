@@ -1,0 +1,35 @@
+function computeLPSArray(s) {
+    let lps = new Array(s.length).fill(0);
+    let length = 0;
+    let i = 1;
+    while (i < s.length) {
+        if (s[i] === s[length]) {
+            length++;
+            lps[i] = length;
+            i++;
+        } else {
+            if (length !== 0) {
+                length = lps[length - 1];
+            } else {
+                lps[i] = 0;
+                i++;
+            }
+        }
+    }
+    return lps;
+}
+
+function minCharsForPalindrome(str) {
+    const reverseStr = str.split('').reverse().join('');
+    const concatStr = str + '$' + reverseStr;
+    const lps = computeLPSArray(concatStr);
+    // The last value in the LPS array will give us the length of the longest 
+    // palindromic suffix of the original string which is a prefix of the reversed string.
+    const longestPalindrome = lps[lps.length - 1];
+    // The characters to add is total length minus the length of the longest palindrome.
+    return str.length - longestPalindrome;
+}
+
+// Example usage:
+console.log(minCharsForPalindrome("ABC"));        // Output: 2
+console.log(minCharsForPalindrome("AACECAAAA"));  // Output: 2
