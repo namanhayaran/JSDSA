@@ -1,0 +1,37 @@
+class Solution {
+    Anagrams(n, string_list) {
+        const map = new Map(); // to hold sorted word as key and original words as values in an array
+        const order = []; // to maintain the order of first occurrences
+
+        // Iterate over each word in the list
+        for (const word of string_list) {
+            // Sort the characters in the word to form the key
+            const sortedWord = word.split('').sort().join('');
+            
+            // If the sorted version of the word is not already a key in the map
+            if (!map.has(sortedWord)) {
+                map.set(sortedWord, []); // initialize an empty array for this key
+                order.push(sortedWord); // remember the order of this key
+            }
+            
+            // Add the original word to the array for this key
+            map.get(sortedWord).push(word);
+        }
+
+        // Prepare the result in the required format
+        let result = [];
+        order.forEach(key => {
+            // Sort each group lexicographically
+            const group = map.get(key).sort();
+            result.push(group.join(' ')); // join the words with space and push to result array
+        });
+
+        return result.join('\n'); // join the groups with newline for output
+    }
+}
+
+// Example usage:
+const solution = new Solution();
+const words = ["act", "god", "cat", "dog", "tac"];
+const output = solution.Anagrams(5, words);
+console.log(output);
