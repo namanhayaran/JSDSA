@@ -1,0 +1,37 @@
+function isMatch(wild, pattern) {
+    let wildLen = wild.length;
+    let patternLen = pattern.length;
+    let dp = Array.from({ length: wildLen + 1 }, () => Array(patternLen + 1).fill(false));
+
+    // Both strings are empty
+    dp[0][0] = true;
+
+    // Deals with leading '*' in wild
+    for (let i = 1; i <= wildLen; i++) {
+        if (wild[i - 1] === '*') {
+            dp[i][0] = dp[i - 1][0];
+        } else {
+            break;
+        }
+    }
+
+    // Fill the dp table
+    for (let i = 1; i <= wildLen; i++) {
+        for (let j = 1; j <= patternLen; j++) {
+            if (wild[i - 1] === '?') {
+                dp[i][j] = dp[i - 1][j - 1];
+            } else if (wild[i - 1] === '*') {
+                dp[i][j] = dp[i - 1][j] || dp[i][j - 1];
+            } else if (wild[i - 1] === pattern[j - 1]) {
+                dp[i][j] = dp[i - 1][j - 1];
+            }
+        }
+    }
+
+    return dp[wildLen][patternLen];
+}
+
+// Test cases
+console.log(isMatch("ge*ks", "geeks") ? "Yes" : "No"); // Yes
+console.log(isMatch("ge?ks*", "geeksforgeeks") ? "Yes" : "No"); // Yes
+console.log(isMatch("*?ks", "geeks") ? "Yes" : "No"); // Yes
