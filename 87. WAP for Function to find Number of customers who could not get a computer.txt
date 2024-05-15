@@ -1,0 +1,34 @@
+function runCustomerSimulation(n, seq) {
+    let currentCustomers = new Set();
+    let customersWithNoComputer = 0;
+    let arrivals = new Map();
+
+    for (let i = 0; i < seq.length; i++) {
+        let customer = seq[i];
+
+        if (!arrivals.has(customer)) {
+            // Customer arrives for the first time
+            arrivals.set(customer, true);
+            if (currentCustomers.size < n) {
+                // If a computer is available, allocate it to the customer
+                currentCustomers.add(customer);
+            } else {
+                // No computer available for this customer
+                customersWithNoComputer++;
+            }
+        } else {
+            // Customer departs
+            arrivals.delete(customer);
+            currentCustomers.delete(customer);
+        }
+    }
+
+    return customersWithNoComputer;
+}
+
+// Example test cases
+console.log(runCustomerSimulation(2, "ABBAJJKZKZ")); // 0
+console.log(runCustomerSimulation(3, "GACCBDDBAGEE")); // 1
+console.log(runCustomerSimulation(3, "GACCBGDDBAEE")); // 0
+console.log(runCustomerSimulation(1, "ABCBCA")); // 2
+console.log(runCustomerSimulation(1, "ABCBCADEED")); // 3
