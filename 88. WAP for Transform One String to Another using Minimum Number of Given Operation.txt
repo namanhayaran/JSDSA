@@ -1,0 +1,44 @@
+function minOperationsToTransform(A, B) {
+    if (A.length !== B.length) {
+        return -1;
+    }
+
+    // Check if both strings have the same characters with same frequencies
+    const charCountA = {};
+    const charCountB = {};
+    
+    for (let char of A) {
+        charCountA[char] = (charCountA[char] || 0) + 1;
+    }
+    
+    for (let char of B) {
+        charCountB[char] = (charCountB[char] || 0) + 1;
+    }
+
+    for (let char in charCountA) {
+        if (charCountA[char] !== charCountB[char]) {
+            return -1;
+        }
+    }
+
+    let i = A.length - 1;
+    let j = B.length - 1;
+    let commonSuffixLength = 0;
+
+    // Find the length of the longest common suffix
+    while (i >= 0 && j >= 0) {
+        if (A[i] === B[j]) {
+            commonSuffixLength++;
+            i--;
+            j--;
+        } else {
+            i--;
+        }
+    }
+
+    return A.length - commonSuffixLength;
+}
+
+// Examples:
+console.log(minOperationsToTransform("ABD", "BAD")); // Output: 1
+console.log(minOperationsToTransform("EACBD", "EABCD")); // Output: 3
