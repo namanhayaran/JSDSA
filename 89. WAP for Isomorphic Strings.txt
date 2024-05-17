@@ -1,0 +1,36 @@
+function areIsomorphic(str1, str2) {
+    // Check if both strings have the same length
+    if (str1.length !== str2.length) {
+        return false;
+    }
+
+    // Create two maps to store character mappings
+    let mapStr1ToStr2 = new Map();
+    let mapStr2ToStr1 = new Map();
+
+    for (let i = 0; i < str1.length; i++) {
+        let char1 = str1[i];
+        let char2 = str2[i];
+
+        // Check existing mappings in both maps
+        if ((mapStr1ToStr2.has(char1) && mapStr1ToStr2.get(char1) !== char2) ||
+            (mapStr2ToStr1.has(char2) && mapStr2ToStr1.get(char2) !== char1)) {
+            return false;
+        }
+
+        // Create new mappings
+        mapStr1ToStr2.set(char1, char2);
+        mapStr2ToStr1.set(char2, char1);
+    }
+
+    return true;
+}
+
+// Example usage:
+let str1 = "aab";
+let str2 = "xxy";
+console.log(areIsomorphic(str1, str2)); // Output: true
+
+str1 = "foo";
+str2 = "bar";
+console.log(areIsomorphic(str1, str2)); // Output: false
