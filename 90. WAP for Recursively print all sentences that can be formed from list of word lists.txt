@@ -1,0 +1,30 @@
+function printSentences(wordLists) {
+    function recurse(index, sentence) {
+        if (index === wordLists.length) {
+            // Base case: if we've reached the end of the word lists, print the sentence
+            console.log(sentence.join(' '));
+            return;
+        }
+
+        // Iterate over each word in the current word list
+        for (let word of wordLists[index]) {
+            // Add the word to the current sentence and recurse to the next word list
+            sentence.push(word);
+            recurse(index + 1, sentence);
+            // Remove the word to backtrack and try the next word
+            sentence.pop();
+        }
+    }
+
+    // Start the recursion with the first word list and an empty sentence
+    recurse(0, []);
+}
+
+// Example usage
+const wordLists = [
+    ["you", "we"],
+    ["have", "are"],
+    ["sleep", "eat", "drink"]
+];
+
+printSentences(wordLists);
