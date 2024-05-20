@@ -1,0 +1,20 @@
+function valueEqualToIndex(N, Arr) {
+    // Initialize an array to hold the indices
+    let result = [];
+
+    // Iterate through the array using 0-based index
+    for (let i = 0; i < N; i++) {
+        // Check if the value equals its 1-based index (i + 1)
+        if (Arr[i] === i + 1) {
+            result.push(i + 1); // Store the 1-based index
+        }
+    }
+
+    // Return the result array
+    return result;
+}
+
+// Example usage:
+const N = 5;
+const Arr = [15, 2, 45, 12, 7];
+console.log(valueEqualToIndex(N, Arr)); // Output: [2]
