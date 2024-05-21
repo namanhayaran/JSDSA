@@ -1,0 +1,40 @@
+function search(nums, target) {
+    let left = 0;
+    let right = nums.length - 1;
+
+    // Find the pivot point where the array is rotated
+    while (left < right) {
+        const mid = Math.floor((left + right) / 2);
+        if (nums[mid] > nums[right]) {
+            left = mid + 1;
+        } else {
+            right = mid;
+        }
+    }
+
+    // 'left' is now the smallest element's index (pivot)
+    const pivot = left;
+    left = 0;
+    right = nums.length - 1;
+
+    // Perform a binary search with the adjusted mid
+    while (left <= right) {
+        const mid = Math.floor((left + right) / 2);
+        const realMid = (mid + pivot) % nums.length;
+
+        if (nums[realMid] === target) {
+            return realMid;
+        } else if (nums[realMid] < target) {
+            left = mid + 1;
+        } else {
+            right = mid - 1;
+        }
+    }
+
+    return -1;
+}
+
+// Example usage
+console.log(search([4,5,6,7,0,1,2], 0)); // Output: 4
+console.log(search([4,5,6,7,0,1,2], 3)); // Output: -1
+console.log(search([1], 0)); // Output: -1
