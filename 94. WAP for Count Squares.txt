@@ -1,0 +1,16 @@
+function countPerfectSquaresLessThanN(N) {
+    let count = 0;
+    let k = 1;
+    
+    while (k * k < N) {
+        count++;
+        k++;
+    }
+    
+    return count;
+}
+
+// Example usage:
+console.log(countPerfectSquaresLessThanN(9)); // Output: 2
+console.log(countPerfectSquaresLessThanN(10)); // Output: 3
+console.log(countPerfectSquaresLessThanN(25)); // Output: 4
