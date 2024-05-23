@@ -1,0 +1,15 @@
+function findMiddle(A, B, C) {
+    if ((A > B && A < C) || (A < B && A > C)) {
+        return A;
+    } else if ((B > A && B < C) || (B < A && B > C)) {
+        return B;
+    } else {
+        return C;
+    }
+}
+
+// Example usage:
+const A = 978;
+const B = 518;
+const C = 300;
+console.log(findMiddle(A, B, C)); // Output: 518
