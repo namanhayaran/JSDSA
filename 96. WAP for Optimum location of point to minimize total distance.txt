@@ -1,0 +1,70 @@
+// Helper function to calculate the distance between two points
+function distance(x1, y1, x2, y2) {
+    return Math.sqrt((x1 - x2) ** 2 + (y1 - y2) ** 2);
+}
+
+// Function to find the geometric median using Weiszfeld's algorithm
+function geometricMedian(points, tolerance = 1e-5) {
+    let x = points.reduce((sum, p) => sum + p[0], 0) / points.length;
+    let y = points.reduce((sum, p) => sum + p[1], 0) / points.length;
+    
+    let lastX = x;
+    let lastY = y;
+    let diff = Infinity;
+
+    while (diff > tolerance) {
+        let numeratorX = 0;
+        let numeratorY = 0;
+        let denominator = 0;
+
+        for (let [px, py] of points) {
+            let w = distance(px, py, x, y);
+            if (w !== 0) {
+                numeratorX += px / w;
+                numeratorY += py / w;
+                denominator += 1 / w;
+            }
+        }
+
+        if (denominator !== 0) {
+            x = numeratorX / denominator;
+            y = numeratorY / denominator;
+        }
+
+        diff = distance(x, y, lastX, lastY);
+        lastX = x;
+        lastY = y;
+    }
+
+    return [x, y];
+}
+
+// Function to project a point onto the line ax + by + c = 0
+function projectPointOntoLine(a, b, c, x, y) {
+    let d = a * x + b * y + c;
+    let denominator = a * a + b * b;
+    let projX = x - a * d / denominator;
+    let projY = y - b * d / denominator;
+    return [projX, projY];
+}
+
+// Function to minimize the sum of distances to the given points from a point on the line
+function minimizeDistanceToLine(points, a, b, c) {
+    // Step 1: Find the geometric median
+    let [medX, medY] = geometricMedian(points);
+
+    // Step 2: Project the geometric median onto the given line
+    let [optX, optY] = projectPointOntoLine(a, b, c, medX, medY);
+
+    return [optX, optY];
+}
+
+// Example usage
+const points = [
+    [1, 2],
+    [3, 4],
+    [5, 6]
+];
+const a = 1, b = -1, c = 0;
+const [optX, optY] = minimizeDistanceToLine(points, a, b, c);
+console.log(`Optimal point on the line: (${optX.toFixed(3)}, ${optY.toFixed(3)})`);
