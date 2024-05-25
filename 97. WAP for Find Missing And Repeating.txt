@@ -1,0 +1,40 @@
+function findMissingAndRepeating(arr, n) {
+    // Calculate the expected sum and sum of squares for numbers 1 to N
+    let expectedSum = n * (n + 1) / 2;
+    let expectedSumSq = n * (n + 1) * (2 * n + 1) / 6;
+
+    // Calculate the actual sum and sum of squares from the array
+    let actualSum = 0;
+    let actualSumSq = 0;
+
+    for (let i = 0; i < n; i++) {
+        actualSum += arr[i];
+        actualSumSq += arr[i] * arr[i];
+    }
+
+    // The difference between the expected and actual sums
+    let sumDiff = expectedSum - actualSum; // A - B
+    let sumSqDiff = expectedSumSq - actualSumSq; // A^2 - B^2
+
+    // A^2 - B^2 = (A - B)(A + B)
+    // sumSqDiff = sumDiff * (A + B)
+
+    // A + B = sumSqDiff / sumDiff
+    let sumSum = sumSqDiff / sumDiff;
+
+    // Now we have two equations:
+    // A - B = sumDiff
+    // A + B = sumSum
+
+    // Solving these two equations to find A and B
+    let A = (sumDiff + sumSum) / 2;
+    let B = sumSum - A;
+
+    return [B, A]; // B is repeating, A is missing
+}
+
+// Example usage
+const N = 2;
+const Arr = [2, 2];
+const result = findMissingAndRepeating(Arr, N);
+console.log(result); // Output: [2, 1]
