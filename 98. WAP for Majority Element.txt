@@ -1,0 +1,37 @@
+function majorityElement(a, size) {
+    let candidate = null;
+    let count = 0;
+
+    // Phase 1: Find a candidate
+    for (let i = 0; i < size; i++) {
+        if (count === 0) {
+            candidate = a[i];
+            count = 1;
+        } else if (a[i] === candidate) {
+            count++;
+        } else {
+            count--;
+        }
+    }
+
+    // Phase 2: Validate the candidate
+    count = 0;
+    for (let i = 0; i < size; i++) {
+        if (a[i] === candidate) {
+            count++;
+        }
+    }
+
+    // Check if the candidate is indeed a majority element
+    if (count > Math.floor(size / 2)) {
+        return candidate;
+    } else {
+        return -1;
+    }
+}
+
+// Example usage:
+const arr = [1, 2, 3];
+const size = arr.length;
+const majorityElementResult = majorityElement(arr, size);
+console.log(majorityElementResult); // Output: -1
