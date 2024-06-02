@@ -1,0 +1,32 @@
+function findSubarray(arr, n) {
+    let count = 0;
+    let sum = 0;
+    let prefixSumMap = {};
+
+    // Traverse the array
+    for (let i = 0; i < n; i++) {
+        // Add the current element to the sum
+        sum += arr[i];
+
+        // If the sum is 0, increment count
+        if (sum === 0) {
+            count++;
+        }
+
+        // If the sum is found in prefixSumMap, increment count by the value of its frequency
+        if (prefixSumMap[sum]) {
+            count += prefixSumMap[sum];
+        }
+
+        // Increment the frequency of the current sum in the map
+        prefixSumMap[sum] = (prefixSumMap[sum] || 0) + 1;
+    }
+
+    return count;
+}
+
+// Example usage:
+const arr = [0, 0, 5, 5, 0, 0];
+const n = arr.length;
+const result = findSubarray(arr, n);
+console.log("Total count:", result); // Output: 6
