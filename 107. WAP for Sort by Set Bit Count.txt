@@ -1,0 +1,39 @@
+function sortBySetBitCount(arr, n) {
+    // Helper function to count the number of set bits in a number
+    function countSetBits(num) {
+        let count = 0;
+        while (num > 0) {
+            count += num & 1;
+            num >>= 1;
+        }
+        return count;
+    }
+
+    // Create an array of objects that include the original value, set bit count, and original index
+    let arrWithBits = arr.map((num, index) => {
+        return {
+            value: num,
+            bits: countSetBits(num),
+            index: index
+        };
+    });
+
+    // Sort the array based on the number of set bits (descending) and original index (ascending)
+    arrWithBits.sort((a, b) => {
+        if (b.bits === a.bits) {
+            return a.index - b.index;
+        }
+        return b.bits - a.bits;
+    });
+
+    // Extract the sorted values
+    for (let i = 0; i < n; i++) {
+        arr[i] = arrWithBits[i].value;
+    }
+}
+
+// Example usage:
+let arr = [5, 2, 3, 9, 4, 6, 7, 15, 32];
+let n = arr.length;
+sortBySetBitCount(arr, n);
+console.log(arr); // Output: [15, 7, 5, 3, 9, 6, 2, 4, 32]
