@@ -1,0 +1,75 @@
+const readline = require('readline');
+
+const rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout
+});
+
+const input = [];
+rl.on('line', (line) => {
+  input.push(line);
+}).on('close', () => {
+  const [n, m] = input[0].split(' ').map(Number);
+  const A = input.slice(1, n + 1).map(row => row.split(' ').map(Number));
+  const [x, y] = input[n + 1].split(' ').map(Number);
+  const B = input.slice(n + 2, n + 2 + x).map(row => row.split(' ').map(Number));
+
+  // Precompute row hashes for all possible submatrices
+  function computeRowHashes(matrix, rows, cols) {
+    const base = 10007;
+    const mod = 1000000007;
+    const rowHashes = Array(rows).fill(0).map(() => Array(cols).fill(0));
+
+    for (let i = 0; i < rows; i++) {
+      for (let j = 0; j < cols; j++) {
+        rowHashes[i][j] = (matrix[i][j] + (j > 0 ? rowHashes[i][j - 1] * base : 0)) % mod;
+      }
+    }
+
+    return rowHashes;
+  }
+
+  const A_rowHashes = computeRowHashes(A, n, m);
+  const B_rowHashes = computeRowHashes(B, x, y);
+
+  // Helper function to check if there's a common k x k submatrix
+  function hasCommonSubsquare(size) {
+    const hashSet = new Set();
+
+    for (let i = 0; i <= n - size; i++) {
+      for (let j = 0; j <= m - size; j++) {
+        let hash = 0;
+        for (let k = 0; k < size; k++) {
+          hash = (hash * 10007 + A_rowHashes[i + k][j + size - 1] - (j > 0 ? A_rowHashes[i + k][j - 1] * Math.pow(10007, size) : 0) + 1000000007) % 1000000007;
+        }
+        hashSet.add(hash);
+      }
+    }
+
+    for (let i = 0; i <= x - size; i++) {
+      for (let j = 0; j <= y - size; j++) {
+        let hash = 0;
+        for (let k = 0; k < size; k++) {
+          hash = (hash * 10007 + B_rowHashes[i + k][j + size - 1] - (j > 0 ? B_rowHashes[i + k][j - 1] * Math.pow(10007, size) : 0) + 1000000007) % 1000000007;
+        }
+        if (hashSet.has(hash)) return true;
+      }
+    }
+
+    return false;
+  }
+
+  // Binary search to find the largest size of the common subsquare
+  let low = 0, high = Math.min(n, m, x, y), bestSize = 0;
+  while (low <= high) {
+    const mid = Math.floor((low + high) / 2);
+    if (hasCommonSubsquare(mid)) {
+      bestSize = mid;
+      low = mid + 1;
+    } else {
+      high = mid - 1;
+    }
+  }
+
+  console.log(bestSize);
+});
