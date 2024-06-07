@@ -1,0 +1,42 @@
+const readline = require('readline');
+
+const rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout
+});
+
+let input = [];
+rl.on('line', (line) => {
+  input.push(line);
+});
+
+rl.on('close', () => {
+  let index = 0;
+  const T = parseInt(input[index++], 10);
+  let result = [];
+
+  for (let t = 0; t < T; t++) {
+    const [N, Q] = input[index++].split(' ').map(Number);
+    let numberSet = new Set();
+
+    for (let i = 0; i < N; i++) {
+      const [A, B] = input[index++].split(' ').map(Number);
+      for (let num = A; num <= B; num++) {
+        numberSet.add(num);
+      }
+    }
+
+    let sortedNumbers = Array.from(numberSet).sort((a, b) => a - b);
+
+    for (let q = 0; q < Q; q++) {
+      const K = parseInt(input[index++], 10);
+      if (K > 0 && K <= sortedNumbers.length) {
+        result.push(sortedNumbers[K - 1]);
+      } else {
+        result.push(-1);
+      }
+    }
+  }
+
+  console.log(result.join('\n'));
+});
