@@ -1,0 +1,46 @@
+class Solution {
+    kthElement(A, B, n, m, k) {
+        function findKth(arr1, arr2, n, m, k) {
+            // Ensure that arr1 is the smaller array
+            if (n > m) {
+                return findKth(arr2, arr1, m, n, k);
+            }
+
+            let low = Math.max(0, k - m);
+            let high = Math.min(k, n);
+
+            while (low <= high) {
+                let partitionA = Math.floor((low + high) / 2);
+                let partitionB = k - partitionA;
+
+                let maxLeftA = (partitionA === 0) ? -Infinity : arr1[partitionA - 1];
+                let minRightA = (partitionA === n) ? Infinity : arr1[partitionA];
+
+                let maxLeftB = (partitionB === 0) ? -Infinity : arr2[partitionB - 1];
+                let minRightB = (partitionB === m) ? Infinity : arr2[partitionB];
+
+                if (maxLeftA <= minRightB && maxLeftB <= minRightA) {
+                    return Math.max(maxLeftA, maxLeftB);
+                } else if (maxLeftA > minRightB) {
+                    high = partitionA - 1;
+                } else {
+                    low = partitionA + 1;
+                }
+            }
+
+            throw new Error("The arrays do not meet the constraints.");
+        }
+
+        // Call the helper function with initial parameters
+        return findKth(A, B, n, m, k);
+    }
+}
+
+// Example usage
+let solution = new Solution();
+let arr1 = [2, 3, 6, 7, 9];
+let arr2 = [1, 4, 8, 10];
+let n = arr1.length;
+let m = arr2.length;
+let k = 5;
+console.log(solution.kthElement(arr1, arr2, n, m, k));  // Output: 6
