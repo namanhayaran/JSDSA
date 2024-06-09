@@ -1,0 +1,51 @@
+function findLargestMinDistance(testCases) {
+    function canPlaceCows(stalls, C, minDist) {
+        let count = 1; // place the first cow in the first stall
+        let lastPosition = stalls[0];
+        
+        for (let i = 1; i < stalls.length; i++) {
+            if (stalls[i] - lastPosition >= minDist) {
+                count++;
+                lastPosition = stalls[i];
+                if (count === C) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    function largestMinDistance(N, C, stalls) {
+        stalls.sort((a, b) => a - b);
+        let low = 1;
+        let high = stalls[N - 1] - stalls[0];
+        let result = 0;
+
+        while (low <= high) {
+            let mid = Math.floor((low + high) / 2);
+            if (canPlaceCows(stalls, C, mid)) {
+                result = mid;
+                low = mid + 1;
+            } else {
+                high = mid - 1;
+            }
+        }
+        return result;
+    }
+
+    let results = [];
+    for (let testCase of testCases) {
+        let [N, C] = testCase[0];
+        let stalls = testCase[1];
+        results.push(largestMinDistance(N, C, stalls));
+    }
+
+    return results;
+}
+
+// Example usage:
+const testCases = [
+    [[5, 3], [1, 2, 8, 4, 9]]
+];
+
+console.log(findLargestMinDistance(testCases)); // Output: [3]
