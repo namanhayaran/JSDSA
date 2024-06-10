@@ -1,0 +1,66 @@
+class Solution {
+    // Helper function to check if it is possible to allocate books such that
+    // no student reads more than maxPages
+    isPossible(A, N, M, maxPages) {
+        let studentsRequired = 1;
+        let currentSum = 0;
+
+        for (let i = 0; i < N; i++) {
+            if (A[i] > maxPages) {
+                return false;
+            }
+            if (currentSum + A[i] > maxPages) {
+                studentsRequired++;
+                currentSum = A[i];
+                if (studentsRequired > M) {
+                    return false;
+                }
+            } else {
+                currentSum += A[i];
+            }
+        }
+        return true;
+    }
+
+    // Function to find the minimum number of pages
+    findPages(A, N, M) {
+        if (N < M) {
+            return -1;
+        }
+
+        let sum = 0;
+        let max = 0;
+
+        for (let i = 0; i < N; i++) {
+            sum += A[i];
+            if (A[i] > max) {
+                max = A[i];
+            }
+        }
+
+        let low = max;
+        let high = sum;
+        let result = Number.MAX_SAFE_INTEGER;
+
+        while (low <= high) {
+            let mid = Math.floor((low + high) / 2);
+
+            if (this.isPossible(A, N, M, mid)) {
+                result = Math.min(result, mid);
+                high = mid - 1;
+            } else {
+                low = mid + 1;
+            }
+        }
+
+        return result;
+    }
+}
+
+// Example usage:
+const solution = new Solution();
+let N = 4;
+let A = [12, 34, 67, 90];
+let M = 2;
+
+console.log(solution.findPages(A, N, M)); // Output: 113
