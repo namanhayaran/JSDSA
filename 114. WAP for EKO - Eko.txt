@@ -1,0 +1,31 @@
+function maxSawbladeHeight(N, M, heights) {
+    let low = 0;
+    let high = Math.max(...heights);
+
+    function woodCollected(H) {
+        let wood = 0;
+        for (let height of heights) {
+            if (height > H) {
+                wood += (height - H);
+            }
+        }
+        return wood;
+    }
+
+    while (low <= high) {
+        const mid = Math.floor((low + high) / 2);
+        const collected = woodCollected(mid);
+
+        if (collected >= M) {
+            low = mid + 1;
+        } else {
+            high = mid - 1;
+        }
+    }
+
+    return high;
+}
+
+// Example usage:
+console.log(maxSawbladeHeight(4, 7, [20, 15, 10, 17])); // Output: 15
+console.log(maxSawbladeHeight(5, 20, [4, 42, 40, 26, 46])); // Output: 36
