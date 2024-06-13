@@ -1,0 +1,17 @@
+function isNumberInSequence(A, B, C) {
+    // Check if B - A is divisible by C and non-negative
+    if (C === 0) {
+        return A === B ? 1 : 0;  // Special case: if C is 0, the sequence is constant
+    }
+    if ((B - A) % C === 0 && (B - A) / C >= 0) {
+        return 1;
+    } else {
+        return 0;
+    }
+}
+
+// Example usage:
+const A = 1;
+const B = 3;
+const C = 2;
+console.log(isNumberInSequence(A, B, C));  // Output: 1
