@@ -1,0 +1,31 @@
+class Solution {
+    countTrailingZeroes(k) {
+        let count = 0;
+        while (k >= 5) {
+            k = Math.floor(k / 5);
+            count += k;
+        }
+        return count;
+    }
+
+    findNum(N) {
+        if (N === 0) return 0; // Special case for N = 0
+        let left = 0;
+        let right = 5 * N; // Initial high bound
+
+        while (left < right) {
+            let mid = Math.floor((left + right) / 2);
+            if (this.countTrailingZeroes(mid) < N) {
+                left = mid + 1;
+            } else {
+                right = mid;
+            }
+        }
+        return left;
+    }
+}
+
+// Example usage:
+let solution = new Solution();
+let N = 1;
+console.log(solution.findNum(N)); // Output: 5
