@@ -1,0 +1,61 @@
+function isPossible(arr, n, m, maxPages) {
+    let studentsRequired = 1;
+    let currentPages = 0;
+
+    for (let i = 0; i < n; i++) {
+        if (arr[i] > maxPages) {
+            return false;
+        }
+
+        if (currentPages + arr[i] > maxPages) {
+            studentsRequired++;
+            currentPages = arr[i];
+
+            if (studentsRequired > m) {
+                return false;
+            }
+        } else {
+            currentPages += arr[i];
+        }
+    }
+
+    return true;
+}
+
+function findPages(arr, n, m) {
+    if (n < m) {
+        return -1;
+    }
+
+    let totalPages = 0;
+    let maxPages = 0;
+
+    for (let i = 0; i < n; i++) {
+        totalPages += arr[i];
+        maxPages = Math.max(maxPages, arr[i]);
+    }
+
+    let low = maxPages;
+    let high = totalPages;
+    let result = high;
+
+    while (low <= high) {
+        let mid = Math.floor((low + high) / 2);
+
+        if (isPossible(arr, n, m, mid)) {
+            result = mid;
+            high = mid - 1;
+        } else {
+            low = mid + 1;
+        }
+    }
+
+    return result;
+}
+
+// Example usage:
+const n = 4;
+const arr = [12, 34, 67, 90];
+const m = 2;
+
+console.log(findPages(arr, n, m)); // Output: 113
