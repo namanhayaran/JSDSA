@@ -1,0 +1,54 @@
+function minimumTimeToCookPratas(testCases) {
+    function canCookInTime(time, pratas, cooks) {
+        let count = 0;
+        for (let r of cooks) {
+            let t = 0;
+            let k = 1;
+            while (t + k * r <= time) {
+                t += k * r;
+                count += 1;
+                k += 1;
+            }
+            if (count >= pratas) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    const results = [];
+    for (let i = 0; i < testCases.length; i++) {
+        const [pratas, cooks] = testCases[i];
+        let left = 0;
+        let right = 10 ** 7; // A high enough value as upper bound
+        let answer = right;
+
+        while (left <= right) {
+            let mid = Math.floor((left + right) / 2);
+            if (canCookInTime(mid, pratas, cooks)) {
+                answer = mid;
+                right = mid - 1;
+            } else {
+                left = mid + 1;
+            }
+        }
+        results.push(answer);
+    }
+    return results;
+}
+
+// Input format as specified
+const input = [
+    [10, [4, 1, 2, 3, 4]],
+    [8, [1, 1]],
+    [8, [8, 1, 1, 1, 1, 1, 1, 1, 1]]
+];
+
+// Test cases processing
+const testCases = input.map(tc => {
+    const pratas = tc[0];
+    const cooks = tc.slice(1)[0];
+    return [pratas, cooks];
+});
+
+console.log(minimumTimeToCookPratas(testCases));
