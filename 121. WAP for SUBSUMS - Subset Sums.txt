@@ -1,0 +1,78 @@
+const readline = require('readline');
+
+const rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout
+});
+
+let inputLines = [];
+rl.on('line', (line) => {
+  inputLines.push(line);
+});
+
+rl.on('close', () => {
+  const [N, A, B] = inputLines[0].split(' ').map(Number);
+  const S = inputLines.slice(1).map(Number);
+
+  // Split array into two halves
+  const mid = Math.floor(N / 2);
+  const firstHalf = S.slice(0, mid);
+  const secondHalf = S.slice(mid);
+
+  // Generate all subset sums for a given array
+  const generateSubsetSums = (arr) => {
+    const sums = [];
+    const len = arr.length;
+    for (let i = 0; i < (1 << len); i++) {
+      let sum = 0;
+      for (let j = 0; j < len; j++) {
+        if (i & (1 << j)) {
+          sum += arr[j];
+        }
+      }
+      sums.push(sum);
+    }
+    return sums;
+  };
+
+  // Get all subset sums for both halves
+  const sums1 = generateSubsetSums(firstHalf);
+  const sums2 = generateSubsetSums(secondHalf);
+
+  // Sort the sums of the second half for efficient range counting
+  sums2.sort((a, b) => a - b);
+
+  // Function to count elements in sorted array within range [low, high]
+  const countInRange = (arr, low, high) => {
+    let left = 0, right = arr.length;
+    // Find the first index where arr[index] >= low
+    while (left < right) {
+      let mid = Math.floor((left + right) / 2);
+      if (arr[mid] < low) {
+        left = mid + 1;
+      } else {
+        right = mid;
+      }
+    }
+    const start = left;
+    left = 0, right = arr.length;
+    // Find the first index where arr[index] > high
+    while (left < right) {
+      let mid = Math.floor((left + right) / 2);
+      if (arr[mid] <= high) {
+        left = mid + 1;
+      } else {
+        right = mid;
+      }
+    }
+    const end = left;
+    return end - start;
+  };
+
+  let count = 0;
+  for (let sum1 of sums1) {
+    count += countInRange(sums2, A - sum1, B - sum1);
+  }
+
+  console.log(count);
+});
