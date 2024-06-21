@@ -1,0 +1,55 @@
+// Function to merge two halves in-place
+function merge(arr, left, mid, right) {
+    let start2 = mid + 1;
+
+    // If the direct merge is already sorted
+    if (arr[mid] <= arr[start2]) {
+        return;
+    }
+
+    // Two pointers to maintain start of both arrays to merge
+    while (left <= mid && start2 <= right) {
+        // If element 1 is in right place
+        if (arr[left] <= arr[start2]) {
+            left++;
+        } else {
+            let value = arr[start2];
+            let index = start2;
+
+            // Shift all the elements between element 1 and element 2, right by 1
+            while (index !== left) {
+                arr[index] = arr[index - 1];
+                index--;
+            }
+            arr[left] = value;
+
+            // Update all pointers
+            left++;
+            mid++;
+            start2++;
+        }
+    }
+}
+
+// Function to implement merge sort
+function mergeSort(arr, left, right) {
+    if (left < right) {
+        let mid = left + Math.floor((right - left) / 2);
+
+        // Sort first and second halves
+        mergeSort(arr, left, mid);
+        mergeSort(arr, mid + 1, right);
+
+        // Merge the sorted halves
+        merge(arr, left, mid, right);
+    }
+}
+
+// Example usage
+let arr1 = [2, 3, 4, 1];
+mergeSort(arr1, 0, arr1.length - 1);
+console.log(arr1); // Output: [1, 2, 3, 4]
+
+let arr2 = [56, 2, 45];
+mergeSort(arr2, 0, arr2.length - 1);
+console.log(arr2); // Output: [2, 45, 56]
