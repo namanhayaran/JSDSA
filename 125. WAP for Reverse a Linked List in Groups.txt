@@ -1,0 +1,92 @@
+class Solution {
+    /* Should do this in-place without altering the nodes' values.*/
+    reverse(head, k) {
+        if (!head || k <= 1) return head;
+
+        let current = head;
+        let prevTail = null;
+        let newHead = null;
+
+        while (current) {
+            let count = 0;
+            let segmentHead = current;
+            let prev = null;
+
+            // Reverse k nodes
+            while (current && count < k) {
+                let next = current.next;
+                current.next = prev;
+                prev = current;
+                current = next;
+                count++;
+            }
+
+            // New head for the reversed list
+            if (!newHead) newHead = prev;
+
+            // Connect the previous part with the newly reversed segment
+            if (prevTail) prevTail.next = prev;
+            
+            // Move the tail pointer to the end of the reversed segment
+            prevTail = segmentHead;
+        }
+
+        return newHead;
+    }
+}
+
+// Test case setup and execution
+function main() {
+    let t = parseInt(readLine());
+    for (let i = 0; i < t; i++) {
+        let n = parseInt(readLine());
+        let input_ar1 = readLine().split(' ').map(x => parseInt(x));
+        
+        // Create linked list
+        let head = new Node(input_ar1[0]);
+        let tail = head;
+        for (let j = 1; j < n; j++) {
+            tail.next = new Node(input_ar1[j]);
+            tail = tail.next;
+        }
+        
+        let k = parseInt(readLine());
+        let obj = new Solution();
+        let newHead = obj.reverse(head, k);
+        printlist(newHead);
+    }
+}
+
+// Helper function to print the linked list
+function printlist(head) {
+    let current = head; 
+    let s = '';
+    while (current !== null) {
+        s += current.data + " ";
+        current = current.next;
+    }
+    console.log(s.trim());
+}
+
+// Driver code to simulate input and output in the provided code format
+process.stdin.resume();
+process.stdin.setEncoding('utf-8');
+
+let inputString = '';
+let currentLine = 0;
+
+process.stdin.on('data', inputStdin => {
+    inputString += inputStdin;
+});
+
+process.stdin.on('end', _ => {
+    inputString = inputString.trim().split('\n').map(string => {
+        return string.trim();
+    });
+    
+    main();    
+});
+
+function readLine() {
+    return inputString[currentLine++];
+}
