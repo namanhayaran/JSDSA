@@ -1,0 +1,87 @@
+class ListNode {
+    constructor(value = 0, next = null) {
+        this.value = value;
+        this.next = next;
+    }
+}
+
+function removeLoop(head) {
+    if (!head || !head.next) return;
+
+    let slow = head, fast = head;
+
+    // Detect loop using Floyd's Cycle-Finding Algorithm
+    while (fast !== null && fast.next !== null) {
+        slow = slow.next;
+        fast = fast.next.next;
+        if (slow === fast) {
+            break;
+        }
+    }
+
+    // If loop is detected
+    if (slow === fast) {
+        slow = head;
+        if (slow !== fast) {
+            // Find the start of the loop
+            while (slow.next !== fast.next) {
+                slow = slow.next;
+                fast = fast.next;
+            }
+            // Remove the loop
+            fast.next = null;
+        } else {
+            // Loop starts at head, find the end of the loop
+            while (fast.next !== slow) {
+                fast = fast.next;
+            }
+            // Remove the loop
+            fast.next = null;
+        }
+    }
+}
+
+function createLinkedList(n, values, pos) {
+    if (n === 0) return null;
+
+    let head = new ListNode(values[0]);
+    let current = head;
+    let loopNode = null;
+
+    for (let i = 1; i < n; i++) {
+        current.next = new ListNode(values[i]);
+        current = current.next;
+        if (i === pos - 1) {
+            loopNode = current;
+        }
+    }
+
+    if (pos > 0) {
+        current.next = loopNode;
+    }
+
+    return head;
+}
+
+// Example usage:
+let n = 3;
+let values = [1, 3, 4];
+let pos = 2;
+let head = createLinkedList(n, values, pos);
+
+removeLoop(head);
+
+// Function to check if loop is removed (returns 1 if correct)
+function checkLinkedList(head) {
+    let slow = head, fast = head;
+    while (fast !== null && fast.next !== null) {
+        slow = slow.next;
+        fast = fast.next.next;
+        if (slow === fast) {
+            return 0; // Loop still exists
+        }
+    }
+    return 1; // No loop
+}
+
+console.log(checkLinkedList(head)); // Output: 1
