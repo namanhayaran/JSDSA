@@ -1,0 +1,84 @@
+class Node {
+    constructor(value) {
+        this.value = value;
+        this.next = null;
+    }
+}
+
+class LinkedList {
+    constructor() {
+        this.head = null;
+    }
+
+    // Function to add a node at the end of the list
+    append(value) {
+        const newNode = new Node(value);
+        if (!this.head) {
+            this.head = newNode;
+            return;
+        }
+        let current = this.head;
+        while (current.next) {
+            current = current.next;
+        }
+        current.next = newNode;
+    }
+
+    // Function to move the last node to the front
+    moveLastToFront() {
+        if (!this.head || !this.head.next) {
+            return;
+        }
+
+        let secondToLast = null;
+        let last = this.head;
+
+        // Traverse to find the last and second-to-last nodes
+        while (last.next) {
+            secondToLast = last;
+            last = last.next;
+        }
+
+        // Move the last node to the front
+        secondToLast.next = null;
+        last.next = this.head;
+        this.head = last;
+    }
+
+    // Function to print the list
+    printList() {
+        let current = this.head;
+        const values = [];
+        while (current) {
+            values.push(current.value);
+            current = current.next;
+        }
+        console.log(values.join('->'));
+    }
+}
+
+// Example usage
+const list1 = new LinkedList();
+list1.append(1);
+list1.append(2);
+list1.append(3);
+list1.append(4);
+list1.append(5);
+console.log("Original list:");
+list1.printList();
+list1.moveLastToFront();
+console.log("List after moving last to front:");
+list1.printList();
+
+const list2 = new LinkedList();
+list2.append(3);
+list2.append(8);
+list2.append(1);
+list2.append(5);
+list2.append(7);
+list2.append(12);
+console.log("Original list:");
+list2.printList();
+list2.moveLastToFront();
+console.log("List after moving last to front:");
+list2.printList();
