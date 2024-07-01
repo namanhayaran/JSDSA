@@ -1,0 +1,80 @@
+class ListNode {
+    constructor(value) {
+        this.value = value;
+        this.next = null;
+    }
+}
+
+// Helper function to reverse a linked list
+function reverseList(head) {
+    let prev = null;
+    let current = head;
+    let next = null;
+    
+    while (current !== null) {
+        next = current.next;
+        current.next = prev;
+        prev = current;
+        current = next;
+    }
+    
+    return prev;
+}
+
+// Function to add 1 to the number represented by the linked list
+function addOne(head) {
+    // Reverse the linked list
+    head = reverseList(head);
+    
+    let current = head;
+    let carry = 1;
+    let prev = null;
+    
+    // Add 1 to the reversed list
+    while (current !== null) {
+        let sum = current.value + carry;
+        carry = Math.floor(sum / 10);
+        current.value = sum % 10;
+        prev = current;
+        current = current.next;
+    }
+    
+    // If there's still a carry, add a new node at the end
+    if (carry > 0) {
+        prev.next = new ListNode(carry);
+    }
+    
+    // Reverse the list back to get the final result
+    return reverseList(head);
+}
+
+// Helper function to create a linked list from an array
+function createLinkedList(arr) {
+    let head = new ListNode(arr[0]);
+    let current = head;
+    for (let i = 1; i < arr.length; i++) {
+        current.next = new ListNode(arr[i]);
+        current = current.next;
+    }
+    return head;
+}
+
+// Helper function to print the linked list as a number
+function printList(head) {
+    let result = '';
+    let current = head;
+    while (current !== null) {
+        result += current.value;
+        current = current.next;
+    }
+    console.log(result);
+}
+
+// Example usage:
+let list1 = createLinkedList([4, 5, 6]);
+let result1 = addOne(list1);
+printList(result1); // Output: 457
+
+let list2 = createLinkedList([1, 2, 3]);
+let result2 = addOne(list2);
+printList(result2); // Output: 124
