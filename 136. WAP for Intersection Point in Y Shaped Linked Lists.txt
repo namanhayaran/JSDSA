@@ -1,0 +1,50 @@
+class ListNode {
+    constructor(val = 0, next = null) {
+        this.val = val;
+        this.next = next;
+    }
+}
+
+function getIntersectionNode(headA, headB) {
+    // Helper function to get the length of a linked list
+    const getLength = (head) => {
+        let length = 0;
+        let current = head;
+        while (current) {
+            length++;
+            current = current.next;
+        }
+        return length;
+    };
+
+    let lenA = getLength(headA);
+    let lenB = getLength(headB);
+
+    // Adjust starting points
+    while (lenA > lenB) {
+        headA = headA.next;
+        lenA--;
+    }
+    while (lenB > lenA) {
+        headB = headB.next;
+        lenB--;
+    }
+
+    // Traverse both lists together to find the intersection
+    while (headA && headB) {
+        if (headA === headB) {
+            return headA.val;  // Return the intersection node's value
+        }
+        headA = headA.next;
+        headB = headB.next;
+    }
+
+    return null;  // If no intersection is found
+}
+
+// Example usage:
+const common = new ListNode(15, new ListNode(30));
+const list1 = new ListNode(3, new ListNode(6, new ListNode(9, common)));
+const list2 = new ListNode(10, common);
+
+console.log(getIntersectionNode(list1, list2));  // Output: 15
