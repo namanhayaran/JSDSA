@@ -1,0 +1,41 @@
+class ListNode {
+    constructor(val = 0, next = null) {
+        this.val = val;
+        this.next = next;
+    }
+}
+
+function middleNode(head) {
+    let slow = head;
+    let fast = head;
+
+    while (fast !== null && fast.next !== null) {
+        slow = slow.next;
+        fast = fast.next.next;
+    }
+
+    return slow;
+}
+
+// Helper function to create a linked list from an array
+function createLinkedList(arr) {
+    let dummy = new ListNode();
+    let current = dummy;
+    for (let val of arr) {
+        current.next = new ListNode(val);
+        current = current.next;
+    }
+    return dummy.next;
+}
+
+// Example usage
+let head = createLinkedList([1, 2, 3, 4, 5]);
+let middle = middleNode(head);
+
+let result = [];
+while (middle !== null) {
+    result.push(middle.val);
+    middle = middle.next;
+}
+
+console.log(result); // Output: [3, 4, 5]
