@@ -1,0 +1,81 @@
+class Node {
+  constructor(data) {
+    this.data = data;
+    this.next = null;
+  }
+}
+
+class CircularLinkedList {
+  constructor() {
+    this.head = null;
+  }
+
+  // Function to add a node to the circular linked list
+  append(data) {
+    const newNode = new Node(data);
+    if (!this.head) {
+      this.head = newNode;
+      this.head.next = this.head;
+    } else {
+      let temp = this.head;
+      while (temp.next !== this.head) {
+        temp = temp.next;
+      }
+      temp.next = newNode;
+      newNode.next = this.head;
+    }
+  }
+
+  // Function to print a circular linked list
+  printList(head) {
+    if (!head) return;
+    let temp = head;
+    do {
+      process.stdout.write(temp.data + ' ');
+      temp = temp.next;
+    } while (temp !== head);
+    console.log();
+  }
+
+  // Function to split the circular linked list
+  splitList() {
+    if (!this.head || !this.head.next) return;
+
+    let slow = this.head;
+    let fast = this.head;
+
+    // Using Floyd's cycle-finding algorithm to find the middle
+    while (fast.next !== this.head && fast.next.next !== this.head) {
+      slow = slow.next;
+      fast = fast.next.next;
+    }
+
+    // For odd number of nodes, move fast one step ahead
+    if (fast.next.next === this.head) {
+      fast = fast.next;
+    }
+
+    // Set the head of the first half
+    const head1 = this.head;
+
+    // Set the head of the second half
+    const head2 = slow.next;
+
+    // Break the list into two halves
+    slow.next = head1;
+    fast.next = head2;
+
+    return { head1, head2 };
+  }
+}
+
+// Example usage:
+const cll = new CircularLinkedList();
+cll.append(1);
+cll.append(5);
+cll.append(7);
+
+const { head1, head2 } = cll.splitList();
+
+cll.printList(head1); // Output: 1 5
+cll.printList(head2); // Output: 7
