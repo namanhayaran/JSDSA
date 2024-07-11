@@ -1,0 +1,73 @@
+// Define the Node structure
+class Node {
+    constructor(value) {
+        this.value = value;
+        this.next = null;
+        this.prev = null;
+    }
+}
+
+// Define the Doubly Linked List
+class DoublyLinkedList {
+    constructor() {
+        this.head = null;
+        this.tail = null;
+    }
+
+    // Method to add a node at the end of the list
+    append(value) {
+        const newNode = new Node(value);
+        if (!this.head) {
+            this.head = newNode;
+            this.tail = newNode;
+        } else {
+            this.tail.next = newNode;
+            newNode.prev = this.tail;
+            this.tail = newNode;
+        }
+    }
+
+    // Method to reverse the list in-place
+    reverse() {
+        let current = this.head;
+        let temp = null;
+
+        // Swap next and prev for all nodes
+        while (current) {
+            temp = current.prev;
+            current.prev = current.next;
+            current.next = temp;
+            current = current.prev;
+        }
+
+        // Swap head and tail
+        if (temp) {
+            this.head = temp.prev;
+        }
+    }
+
+    // Method to print the list
+    printList() {
+        let current = this.head;
+        const result = [];
+        while (current) {
+            result.push(current.value);
+            current = current.next;
+        }
+        console.log(result.join(' '));
+    }
+}
+
+// Test the implementation
+const list = new DoublyLinkedList();
+list.append(3);
+list.append(4);
+list.append(5);
+
+console.log("Original list:");
+list.printList();
+
+list.reverse();
+
+console.log("Reversed list:");
+list.printList();
