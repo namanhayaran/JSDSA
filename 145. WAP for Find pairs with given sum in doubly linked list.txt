@@ -1,0 +1,28 @@
+class Node {
+  constructor(data) {
+    this.data = data;
+    this.next = null;
+    this.prev = null;
+  }
+}
+
+class DoublyLinkedList {
+  constructor() {
+    this.head = null;
+  }
+
+  // Function to append node to the list
+  append(data) {
+    let newNode = new Node(data);
+    if (this.head === null) {
+      this.head = newNode;
+      return;
+    }
+    let last = this.head;
+    while (last.next !== null) {
+      last = last.next;
+    }
+    last.next = newNode;
+    newNode.prev = last;
+  }
+}
