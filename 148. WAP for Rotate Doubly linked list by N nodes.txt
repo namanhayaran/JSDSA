@@ -1,0 +1,86 @@
+class Node {
+  constructor(data) {
+    this.data = data;
+    this.next = null;
+    this.prev = null;
+  }
+}
+
+class DoublyLinkedList {
+  constructor() {
+    this.head = null;
+    this.tail = null;
+  }
+
+  append(data) {
+    const newNode = new Node(data);
+    if (!this.head) {
+      this.head = newNode;
+      this.tail = newNode;
+    } else {
+      this.tail.next = newNode;
+      newNode.prev = this.tail;
+      this.tail = newNode;
+    }
+  }
+
+  printList() {
+    let current = this.head;
+    while (current) {
+      process.stdout.write(`${current.data} `);
+      current = current.next;
+    }
+    console.log();
+  }
+
+  rotate(N) {
+    if (N === 0 || !this.head) return;
+
+    // Find the Nth node
+    let current = this.head;
+    let count = 1;
+    while (count < N && current) {
+      current = current.next;
+      count++;
+    }
+
+    // If N is greater than the number of nodes
+    if (!current) return;
+
+    // The Nth node is the new tail
+    let newTail = current;
+    let newHead = current.next;
+
+    // If newHead is null, it means we are rotating by the size of the list
+    if (!newHead) return;
+
+    // Update the links
+    newHead.prev = null;
+    newTail.next = null;
+
+    // Update the old tail's next to the old head
+    this.tail.next = this.head;
+    this.head.prev = this.tail;
+
+    // Update the head and tail
+    this.head = newHead;
+    this.tail = newTail;
+  }
+}
+
+// Example usage
+const list = new DoublyLinkedList();
+list.append(1);
+list.append(2);
+list.append(3);
+list.append(4);
+list.append(5);
+
+console.log("Original list:");
+list.printList();
+
+const N = 2;
+list.rotate(N);
+
+console.log(`List after rotating by ${N} nodes:`);
+list.printList();
