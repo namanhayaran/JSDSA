@@ -1,0 +1,77 @@
+class Node {
+    constructor(data) {
+        this.data = data;
+        this.next = null;
+        this.prev = null;
+    }
+}
+
+class DoublyLinkedList {
+    constructor() {
+        this.head = null;
+        this.tail = null;
+    }
+
+    append(data) {
+        let newNode = new Node(data);
+        if (!this.head) {
+            this.head = newNode;
+            this.tail = newNode;
+        } else {
+            this.tail.next = newNode;
+            newNode.prev = this.tail;
+            this.tail = newNode;
+        }
+    }
+
+    rotateByN(n) {
+        if (!this.head || n <= 0) return;
+
+        let current = this.head;
+        let length = 1;
+
+        // Traverse to find the N-th node
+        while (length < n && current) {
+            current = current.next;
+            length++;
+        }
+
+        // If n is larger than the length of the list, return without changes
+        if (!current) return;
+
+        let newHead = current.next;
+        if (newHead) {
+            newHead.prev = null;
+        }
+        this.tail.next = this.head;
+        this.head.prev = this.tail;
+        this.tail = current;
+        this.tail.next = null;
+        this.head = newHead;
+    }
+
+    printList() {
+        let current = this.head;
+        let result = [];
+        while (current) {
+            result.push(current.data);
+            current = current.next;
+        }
+        console.log(result.join(' '));
+    }
+}
+
+// Example Usage
+let dll = new DoublyLinkedList();
+dll.append(1);
+dll.append(2);
+dll.append(3);
+dll.append(4);
+dll.append(5);
+
+console.log("Original List:");
+dll.printList();
+
+dll.rotateByN(2);
+console.log("List after rotating by 2 nodes:");
+dll.printList();
