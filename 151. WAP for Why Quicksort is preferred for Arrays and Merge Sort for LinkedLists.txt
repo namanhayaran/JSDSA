@@ -1,0 +1,48 @@
+class ListNode {
+    constructor(val, next = null) {
+        this.val = val;
+        this.next = next;
+    }
+}
+
+function mergeSort(head) {
+    if (!head || !head.next) return head;
+    
+    // Split the linked list into halves
+    let [left, right] = splitList(head);
+    
+    // Recursively sort each half
+    left = mergeSort(left);
+    right = mergeSort(right);
+    
+    // Merge the sorted halves
+    return merge(left, right);
+}
+
+function splitList(head) {
+    let slow = head, fast = head, prev = null;
+    while (fast && fast.next) {
+        prev = slow;
+        slow = slow.next;
+        fast = fast.next.next;
+    }
+    prev.next = null;
+    return [head, slow];
+}
+
+function merge(left, right) {
+    let dummy = new ListNode();
+    let current = dummy;
+    while (left && right) {
+        if (left.val < right.val) {
+            current.next = left;
+            left = left.next;
+        } else {
+            current.next = right;
+            right = right.next;
+        }
+        current = current.next;
+    }
+    current.next = left || right;
+    return dummy.next;
+}
