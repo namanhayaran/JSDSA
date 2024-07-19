@@ -1,0 +1,79 @@
+class Node {
+  constructor(data) {
+    this.data = data;
+    this.next = null;
+    this.bottom = null;
+  }
+}
+
+// Utility function to merge two sorted linked lists
+function merge(a, b) {
+  // If first linked list is empty, return the second list
+  if (a === null) return b;
+
+  // If second linked list is empty, return the first list
+  if (b === null) return a;
+
+  // Compare the data members of the two linked lists and put the smaller one in the result
+  let result;
+  if (a.data < b.data) {
+    result = a;
+    result.bottom = merge(a.bottom, b);
+  } else {
+    result = b;
+    result.bottom = merge(a, b.bottom);
+  }
+
+  return result;
+}
+
+// Function to flatten the linked list
+function flatten(root) {
+  // Base case
+  if (root === null || root.next === null) {
+    return root;
+  }
+
+  // Recur for the list on the right
+  root.next = flatten(root.next);
+
+  // Now merge
+  root = merge(root, root.next);
+
+  // Return the root, it will be in turn merged with its left
+  return root;
+}
+
+// Utility function to print the flattened linked list
+function printList(node) {
+  while (node !== null) {
+    process.stdout.write(node.data + " ");
+    node = node.bottom;
+  }
+  console.log();
+}
+
+// Helper function to create a linked list with bottom pointers
+function createBottomList(arr) {
+  let head = new Node(arr[0]);
+  let current = head;
+  for (let i = 1; i < arr.length; i++) {
+    current.bottom = new Node(arr[i]);
+    current = current.bottom;
+  }
+  return head;
+}
+
+// Example usage:
+let root = new Node(5);
+root.next = new Node(10);
+root.next.next = new Node(19);
+root.next.next.next = new Node(28);
+
+root.bottom = createBottomList([7, 8, 30]);
+root.next.bottom = createBottomList([20]);
+root.next.next.bottom = createBottomList([22, 50]);
+root.next.next.next.bottom = createBottomList([35, 40, 45]);
+
+root = flatten(root);
+printList(root);
