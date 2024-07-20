@@ -1,0 +1,66 @@
+// Definition for singly-linked list.
+function ListNode(val, next = null) {
+  this.val = val;
+  this.next = next;
+}
+
+// Function to segregate the linked list
+function segregateLinkedList(head) {
+  if (!head || !head.next) return head;
+
+  // Step 1: Count the number of 0s, 1s, and 2s
+  let count = [0, 0, 0];
+  let current = head;
+
+  while (current) {
+    count[current.val]++;
+    current = current.next;
+  }
+
+  // Step 2: Update the linked list according to the counts
+  current = head;
+  let index = 0;
+
+  while (current) {
+    while (count[index] === 0) {
+      index++;
+    }
+    current.val = index;
+    count[index]--;
+    current = current.next;
+  }
+
+  return head;
+}
+
+// Helper function to create a linked list from an array
+function createLinkedList(arr) {
+  let dummy = new ListNode(-1);
+  let current = dummy;
+  for (let val of arr) {
+    current.next = new ListNode(val);
+    current = current.next;
+  }
+  return dummy.next;
+}
+
+// Helper function to print a linked list
+function printLinkedList(head) {
+  let result = [];
+  let current = head;
+  while (current) {
+    result.push(current.val);
+    current = current.next;
+  }
+  console.log(result.join(' '));
+}
+
+// Example usage
+let values = [1, 2, 2, 1, 2, 0, 2, 2];
+let head = createLinkedList(values);
+console.log("Original list:");
+printLinkedList(head);
+
+head = segregateLinkedList(head);
+console.log("Segregated list:");
+printLinkedList(head);
