@@ -1,0 +1,72 @@
+class ListNode {
+  constructor(value = 0, next = null) {
+    this.value = value;
+    this.next = next;
+  }
+}
+
+function reverseList(head) {
+  let prev = null;
+  let current = head;
+  let next = null;
+
+  while (current !== null) {
+    next = current.next;
+    current.next = prev;
+    prev = current;
+    current = next;
+  }
+
+  return prev;
+}
+
+function removeNodes(head) {
+  // Step 1: Reverse the linked list
+  head = reverseList(head);
+
+  // Step 2: Remove nodes which have a greater node on their right
+  let maxSoFar = head.value;
+  let current = head;
+
+  while (current !== null && current.next !== null) {
+    if (current.next.value < maxSoFar) {
+      current.next = current.next.next;
+    } else {
+      maxSoFar = current.next.value;
+      current = current.next;
+    }
+  }
+
+  // Step 3: Reverse the list again to restore original order
+  head = reverseList(head);
+
+  return head;
+}
+
+// Helper function to print the linked list
+function printList(head) {
+  let current = head;
+  while (current !== null) {
+    process.stdout.write(current.value + ' ');
+    current = current.next;
+  }
+  console.log();
+}
+
+// Example usage
+let head = new ListNode(12);
+head.next = new ListNode(15);
+head.next.next = new ListNode(10);
+head.next.next.next = new ListNode(11);
+head.next.next.next.next = new ListNode(5);
+head.next.next.next.next.next = new ListNode(6);
+head.next.next.next.next.next.next = new ListNode(2);
+head.next.next.next.next.next.next.next = new ListNode(3);
+
+console.log("Original List:");
+printList(head);
+
+head = removeNodes(head);
+
+console.log("Processed List:");
+printList(head);
