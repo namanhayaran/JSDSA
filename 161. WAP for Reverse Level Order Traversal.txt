@@ -1,0 +1,49 @@
+class TreeNode {
+    constructor(value) {
+        this.value = value;
+        this.left = null;
+        this.right = null;
+    }
+}
+
+function reverseLevelOrderTraversal(root) {
+    if (root === null) {
+        return [];
+    }
+
+    let queue = [];
+    let stack = [];
+    let result = [];
+
+    queue.push(root);
+
+    while (queue.length > 0) {
+        let node = queue.shift();
+        stack.push(node);
+
+        // Enqueue right child first so that left child is processed first (for reverse order)
+        if (node.right !== null) {
+            queue.push(node.right);
+        }
+
+        // Enqueue left child
+        if (node.left !== null) {
+            queue.push(node.left);
+        }
+    }
+
+    // Pop all items from stack to get the reverse level order
+    while (stack.length > 0) {
+        let node = stack.pop();
+        result.push(node.value);
+    }
+
+    return result;
+}
+
+// Example usage:
+let root = new TreeNode(1);
+root.left = new TreeNode(3);
+root.right = new TreeNode(2);
+
+console.log(reverseLevelOrderTraversal(root)); // Output: [3, 2, 1]
