@@ -1,0 +1,70 @@
+class TreeNode {
+    constructor(val) {
+        this.val = val;
+        this.left = null;
+        this.right = null;
+    }
+}
+
+function preorderTraversal(root) {
+    const result = [];
+    
+    function traverse(node) {
+        if (!node) return;
+        
+        result.push(node.val);    // Visit the root
+        traverse(node.left);      // Traverse left subtree
+        traverse(node.right);     // Traverse right subtree
+    }
+    
+    traverse(root);
+    return result;
+}
+
+// Example usage:
+// const root = new TreeNode(1);
+// root.right = new TreeNode(2);
+// root.right.left = new TreeNode(3);
+// console.log(preorderTraversal(root)); // Output: [1, 2, 3]
+
+
+
+
+
+
+
+
+
+
+
+
+class TreeNode {
+    constructor(val) {
+        this.val = val;
+        this.left = null;
+        this.right = null;
+    }
+}
+
+function preorderTraversal(root) {
+    const result = [];
+    if (!root) return result;
+
+    const stack = [root];
+
+    while (stack.length) {
+        const node = stack.pop();
+        result.push(node.val);    // Visit the root
+
+        if (node.right) stack.push(node.right); // Push right child first so that the left child is processed first
+        if (node.left) stack.push(node.left);
+    }
+
+    return result;
+}
+
+// Example usage:
+// const root = new TreeNode(1);
+// root.right = new TreeNode(2);
+// root.right.left = new TreeNode(3);
+// console.log(preorderTraversal(root)); // Output: [1, 2, 3]
