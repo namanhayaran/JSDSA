@@ -1,0 +1,42 @@
+function postorderTraversalRecursive(node) {
+    if (node === null) return;
+
+    // Traverse the left subtree
+    postorderTraversalRecursive(node.left);
+
+    // Traverse the right subtree
+    postorderTraversalRecursive(node.right);
+
+    // Visit the root node
+    console.log(node.value);
+}
+
+
+
+
+function postorderTraversalIterative(root) {
+    if (root === null) return;
+
+    const stack = [];
+    const result = [];
+    stack.push(root);
+
+    while (stack.length > 0) {
+        const node = stack.pop();
+        result.push(node.value);
+
+        // Push left and right children to the stack
+        if (node.left !== null) {
+            stack.push(node.left);
+        }
+        if (node.right !== null) {
+            stack.push(node.right);
+        }
+    }
+
+    // Reverse the result array to get the correct postorder sequence
+    result.reverse();
+
+    // Print the result
+    result.forEach(value => console.log(value));
+}
