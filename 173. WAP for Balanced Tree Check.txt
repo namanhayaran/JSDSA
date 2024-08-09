@@ -1,0 +1,38 @@
+class TreeNode {
+  constructor(value) {
+    this.value = value;
+    this.left = null;
+    this.right = null;
+  }
+}
+
+function isHeightBalanced(root) {
+  // Helper function to check the height and balance of the tree
+  function checkHeight(node) {
+    // An empty tree is height-balanced
+    if (!node) return 0;
+
+    // Check the height of the left and right subtrees
+    let leftHeight = checkHeight(node.left);
+    let rightHeight = checkHeight(node.right);
+
+    // If the subtree is not balanced, return -1
+    if (leftHeight === -1 || rightHeight === -1 || Math.abs(leftHeight - rightHeight) > 1) {
+      return -1;
+    }
+
+    // Return the height of the subtree
+    return Math.max(leftHeight, rightHeight) + 1;
+  }
+
+  // Use the helper function to check if the tree is balanced
+  return checkHeight(root) !== -1 ? 1 : 0;
+}
+
+// Example Usage:
+// Create the tree from the example
+const root = new TreeNode(1);
+root.left = new TreeNode(2);
+root.left.right = new TreeNode(3);
+
+console.log(isHeightBalanced(root)); // Output: 0 (Unbalanced)
