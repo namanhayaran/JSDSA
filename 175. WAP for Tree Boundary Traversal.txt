@@ -1,0 +1,83 @@
+// Binary Tree Node definition
+class TreeNode {
+    constructor(val) {
+        this.val = val;
+        this.left = this.right = null;
+    }
+}
+
+function boundaryTraversal(root) {
+    if (!root) return [];
+    
+    const result = [];
+
+    // Helper function to add left boundary nodes excluding the leaf nodes
+    function addLeftBoundary(node) {
+        while (node) {
+            if (!isLeaf(node)) result.push(node.val);
+            if (node.left) {
+                node = node.left;
+            } else {
+                node = node.right;
+            }
+        }
+    }
+
+    // Helper function to add leaf nodes
+    function addLeaves(node) {
+        if (isLeaf(node)) {
+            result.push(node.val);
+            return;
+        }
+        if (node.left) addLeaves(node.left);
+        if (node.right) addLeaves(node.right);
+    }
+
+    // Helper function to add right boundary nodes excluding the leaf nodes and in reverse order
+    function addRightBoundary(node) {
+        const stack = [];
+        while (node) {
+            if (!isLeaf(node)) stack.push(node.val);
+            if (node.right) {
+                node = node.right;
+            } else {
+                node = node.left;
+            }
+        }
+        while (stack.length > 0) {
+            result.push(stack.pop());
+        }
+    }
+
+    // Helper function to check if a node is a leaf
+    function isLeaf(node) {
+        return !node.left && !node.right;
+    }
+
+    // Adding the root node (it should be added only once)
+    if (!isLeaf(root)) result.push(root.val);
+
+    // Add left boundary, leaves, and right boundary (in reverse)
+    if (root.left) addLeftBoundary(root.left);
+    addLeaves(root);
+    if (root.right) addRightBoundary(root.right);
+
+    return result;
+}
+
+// Example Usage:
+
+// Create a binary tree
+const root = new TreeNode(1);
+root.left = new TreeNode(2);
+root.right = new TreeNode(3);
+root.left.left = new TreeNode(4);
+root.left.right = new TreeNode(5);
+root.right.left = new TreeNode(6);
+root.right.right = new TreeNode(7);
+root.left.right.left = new TreeNode(8);
+root.left.right.right = new TreeNode(9);
+root.right.left.left = new TreeNode(10);
+root.right.left.right = new TreeNode(11);
+
+console.log(boundaryTraversal(root)); // Output: [1, 2, 4, 8, 9, 10, 11, 7, 3]
