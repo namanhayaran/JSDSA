@@ -1,0 +1,62 @@
+// Definition for a binary tree node.
+class TreeNode {
+  constructor(val) {
+    this.val = val;
+    this.left = null;
+    this.right = null;
+  }
+}
+
+// Function to construct binary tree from string
+function str2tree(s) {
+  if (!s || s.length === 0) return null;
+
+  // Helper function to find the index of the matching closing parenthesis
+  function findClosingParenthesisIndex(s, start) {
+    let balance = 0;
+    for (let i = start; i < s.length; i++) {
+      if (s[i] === '(') balance++;
+      if (s[i] === ')') balance--;
+      if (balance === 0) return i;
+    }
+    return -1;
+  }
+
+  // Main recursive function to build the tree
+  function buildTree(s) {
+    if (s.length === 0) return null;
+
+    // Find the first digit or negative sign for the node value
+    let i = 0;
+    while (i < s.length && (s[i] === '(' || s[i] === ')')) i++;
+    
+    let start = i;
+    while (i < s.length && s[i] !== '(' && s[i] !== ')') i++;
+    let val = parseInt(s.substring(start, i));
+    let node = new TreeNode(val);
+
+    // Now, we look for the left child
+    if (i < s.length && s[i] === '(') {
+      let leftStart = i + 1;
+      let leftEnd = findClosingParenthesisIndex(s, leftStart);
+      node.left = buildTree(s.substring(leftStart, leftEnd));
+      i = leftEnd + 1;
+    }
+
+    // Now, we look for the right child
+    if (i < s.length && s[i] === '(') {
+      let rightStart = i + 1;
+      let rightEnd = findClosingParenthesisIndex(s, rightStart);
+      node.right = buildTree(s.substring(rightStart, rightEnd));
+    }
+
+    return node;
+  }
+
+  return buildTree(s);
+}
+
+// Example usage:
+let input = "4(2(3)(1))(6(5))";
+let tree = str2tree(input);
+console.log(tree);
