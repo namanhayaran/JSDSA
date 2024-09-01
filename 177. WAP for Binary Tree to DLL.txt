@@ -1,0 +1,74 @@
+class Node {
+    constructor(data) {
+        this.data = data;
+        this.left = null;  // This will be used as the "prev" pointer in DLL
+        this.right = null; // This will be used as the "next" pointer in DLL
+    }
+}
+
+function bToDLL(root) {
+    // Helper function to convert BT to DLL
+    function convert(root) {
+        if (!root) return null;
+
+        // Convert the left subtree and link to root
+        if (root.left) {
+            // Convert the left subtree
+            let left = convert(root.left);
+
+            // Find the inorder predecessor
+            while (left.right) {
+                left = left.right;
+            }
+
+            // Link the predecessor with root
+            left.right = root;
+            root.left = left;
+        }
+
+        // Convert the right subtree and link to root
+        if (root.right) {
+            // Convert the right subtree
+            let right = convert(root.right);
+
+            // Find the inorder successor
+            while (right.left) {
+                right = right.left;
+            }
+
+            // Link the successor with root
+            right.left = root;
+            root.right = right;
+        }
+
+        return root;
+    }
+
+    // Convert the binary tree to doubly linked list
+    root = convert(root);
+
+    // Find the leftmost node, which will be the head of the DLL
+    let head = root;
+    while (head && head.left) {
+        head = head.left;
+    }
+
+    return head;
+}
+
+// Utility function to print the doubly linked list
+function printDLL(head) {
+    let current = head;
+    while (current) {
+        process.stdout.write(current.data + " ");
+        current = current.right;
+    }
+}
+
+// Example usage:
+let root = new Node(1);
+root.left = new Node(3);
+root.right = new Node(2);
+
+let head = bToDLL(root);
+printDLL(head);  // Output: 3 1 2
